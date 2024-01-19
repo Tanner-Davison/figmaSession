@@ -7,6 +7,8 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+console.log('Hello');
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
