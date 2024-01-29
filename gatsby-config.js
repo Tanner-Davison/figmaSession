@@ -18,11 +18,17 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-image`,
+    "gatsby-plugin-styled-components",
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: "gatsby-plugin-alias-imports",
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        alias: {
+          components: "src/components",
+          styles: "src/styles",
+          utils: "src/utils",
+          // add more aliases here as needed
+        },
+        extensions: ["js", "jsx"],
       },
     },
     `gatsby-transformer-sharp`,
@@ -39,6 +45,12 @@ module.exports = {
         // theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: "gatsby-plugin-google-fonts",
+      options: {
+        fonts: [`Orbitron`, `Archivo`, `Roboto Mono`],
       },
     },
   ],
