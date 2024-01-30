@@ -1,31 +1,34 @@
-import React from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import media from "styles/media"
 import colors from "styles/colors"
 import text from "styles/text"
-import Paranthesis from "../images/Paranthesis.svg"
+import CustomIcon from "./CustomIcon.js"
+
 const SideQuote = () => {
+  const [invertSvg, setInvertSvg] = useState(false)
+  const content = {
+    leftContent: "The number of tickets we used to get—they’re all gone.",
+    rightContent:
+      "Lorem ipsum eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus vestibulum sed arcu non odio euismod lacinia at quis risus sed vulputate odio ut enim blandit volutpat maecenas volutpat.",
+    title: "H3 Title Case.",
+    author: "— End User Product Manager",
+  }
   return (
     <Wrapper>
-      <LeftDiv>
-        <StyledImg src={Paranthesis} alt="Parenthesis" />
-        <LeftContentBody>
-          The number of tickets we used to get—they’re all gone.
-        </LeftContentBody>
-        <Author>— End User Product Manager</Author>
+      <LeftDiv
+      onMouseEnter={()=>setInvertSvg(true)}
+      onMouseLeave={()=>setInvertSvg(false)}>
+        <ParanthesisSvg >
+          <CustomIcon fill={invertSvg}/>
+           </ParanthesisSvg>
+        <LeftContentBody>{content.leftContent}</LeftContentBody>
+        <Author>{content.author}</Author>
       </LeftDiv>
       <RightDiv>
         <Eyebrow> EYEBROW </Eyebrow>
-        <Header>H3 Title Case</Header>
-        <RightContentBody>
-          Lorem ipsum eget nunc scelerisque viverra mauris in aliquam sem
-          fringilla ut morbi tincidunt augue interdum velit euismod in
-          pellentesque massa placerat duis ultricies lacus sed turpis tincidunt
-          id aliquet risus feugiat in ante metus dictum at tempor commodo
-          ullamcorper a lacus vestibulum sed arcu non odio euismod lacinia at
-          quis risus sed vulputate odio ut enim blandit volutpat maecenas
-          volutpat.
-        </RightContentBody>
+        <Header>{content.title}</Header>
+        <RightContentBody>{content.rightContent}</RightContentBody>
         <ButtonCTA>Learn more</ButtonCTA>
       </RightDiv>
     </Wrapper>
@@ -42,6 +45,10 @@ const ButtonCTA = styled.button`
   text-align: unset;
   color: ${colors.primaryOrange};
   width: 6.806vw;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.09);
+  }
   ${media.fullWidth} {
     width: 98px;
   }
@@ -75,6 +82,10 @@ const RightDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
   /* border: 2px solid lightblue; */
   width: 39.167vw;
 
@@ -113,8 +124,9 @@ const LeftContentBody = styled.p`
     ${text.bodyL}
   }
 `
-const StyledImg = styled.img`
+const ParanthesisSvg = styled.div`
   position: absolute;
+  display: flex;
   left: 2.222vw;
   top: -2.083vw;
   width: 4.167vw;
@@ -149,7 +161,10 @@ const LeftDiv = styled.div`
   width: 31.111vw;
   border-radius: 0.833vw;
   padding: 2.778vw 2.222vw;
-
+  transition:transform .3s ease-in-out;
+ &:hover{
+  transform: scale(1.1);
+ }
   ${media.fullWidth} {
     width: 448px;
     border-radius: 12px;
