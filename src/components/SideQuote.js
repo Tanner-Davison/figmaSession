@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import media from "styles/media"
 import colors from "styles/colors"
@@ -17,11 +17,12 @@ const SideQuote = () => {
   return (
     <Wrapper>
       <LeftDiv
-      onMouseEnter={()=>setInvertSvg(true)}
-      onMouseLeave={()=>setInvertSvg(false)}>
-        <ParanthesisSvg >
-          <CustomIcon fill={invertSvg}/>
-           </ParanthesisSvg>
+        onMouseEnter={() => setInvertSvg(true)}
+        onMouseLeave={() => setInvertSvg(false)}
+      >
+        <ParanthesisSvg>
+          <CustomIcon fill={invertSvg} />
+        </ParanthesisSvg>
         <LeftContentBody>{content.leftContent}</LeftContentBody>
         <Author>{content.author}</Author>
       </LeftDiv>
@@ -39,6 +40,7 @@ export default SideQuote
 const ButtonCTA = styled.button`
   ${text.bodyMBold}
   border:none;
+  cursor: pointer;
   background-color: transparent;
   padding: unset;
   margin: unset;
@@ -46,6 +48,7 @@ const ButtonCTA = styled.button`
   color: ${colors.primaryOrange};
   width: 6.806vw;
   transition: transform 0.3s ease-in-out;
+
   &:hover {
     transform: scale(1.09);
   }
@@ -83,6 +86,7 @@ const RightDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease-in-out;
+  gap: 1.667vw;
   &:hover {
     transform: scale(1.1);
   }
@@ -91,6 +95,7 @@ const RightDiv = styled.div`
 
   ${media.fullWidth} {
     width: 564px;
+    gap: 24px;
   }
 
   ${media.tablet} {
@@ -161,10 +166,10 @@ const LeftDiv = styled.div`
   width: 31.111vw;
   border-radius: 0.833vw;
   padding: 2.778vw 2.222vw;
-  transition:transform .3s ease-in-out;
- &:hover{
-  transform: scale(1.1);
- }
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
   ${media.fullWidth} {
     width: 448px;
     border-radius: 12px;
