@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react"
-
 import styled from "styled-components"
-import media from "styles/media"
 import colors from "styles/colors"
+import media from "styles/media"
 import text from "styles/text"
-import { dummyData } from "./content/pullQuoteContent"
 import CardBackgroundImg from "../images/CardBackgroundImg.webp"
 import LargeQuoteBg from "../images/LargeQuoteBg.webp"
 import LightThemeLogo from "../images/LightThemeLogo.webp"
-import TabletBg from '../images/TabletBg.webp';
-import TabletCardBg from '../images/TabletCardBg.webp';
-import MobileLargeImg from '../images/MobileLargeImg.webp';
-import MobileCardImg from '../images/MobileCardImg.webp';
-import LogoRightMobile from '../images/LogoRightMobile.webp';
+import LogoRightMobile from "../images/LogoRightMobile.webp"
+import MobileCardImg from "../images/MobileCardImg.webp"
+import MobileLargeImg from "../images/MobileLargeImg.webp"
+import TabletBg from "../images/TabletBg.webp"
+import TabletCardBg from "../images/TabletCardBg.webp"
+import { dummyData as content } from "./content/pullQuoteContent"
 
 const PullQuote = () => {
   const [cardData, setLightData] = useState([])
@@ -20,7 +19,7 @@ const PullQuote = () => {
   const [cardActive, setCardActive] = useState(null)
 
   useEffect(() => {
-    dummyData.forEach(item => {
+    content.forEach(item => {
       if (item.theme === "dark") {
         setDarkData(item.data)
         item.cardActivated === true ? setCardActive(true) : setCardActive(false)
@@ -31,33 +30,35 @@ const PullQuote = () => {
   }, [darktData, cardData, cardActive])
 
   return (
-    <Wrapper cardactive={cardActive}>
-      <PullQuoteWrapper cardactive={cardActive}>
-        <ContentWrapper cardactive={cardActive}>
-          <QuoteContent cardactive={cardActive}>
-            <StyledEyebrow>
+    <OuterMostWrapper cardactive={cardActive}>
+      <ComponentWrapper cardactive={cardActive}>
+        <AllContentDiv cardactive={cardActive}>
+          <PullQuoteContent cardactive={cardActive}>
+            <Eyebrow>
               {cardActive ? cardData.eyebrow : darktData.eyebrow}
-            </StyledEyebrow>
-            {!cardActive && <BodyL>{darktData.body}</BodyL>}
-            {cardActive && <Body>{media.mobile ? cardData.bodyMobile : cardData.body}</Body>}
+            </Eyebrow>
+            {!cardActive && <BodyLarge>{darktData.body}</BodyLarge>}
+            {cardActive && (
+              <Body>{media.mobile ? cardData.bodyMobile : cardData.body}</Body>
+            )}
             <BottomContent>
               <AuthorContent>
                 {cardActive ? cardData.author : darktData.author}
               </AuthorContent>
               <Title>{cardActive ? cardData.title : darktData.title}</Title>
-              {!cardActive && <Address>{darktData.address}</Address>}
+              {!cardActive && <Location>{darktData.address}</Location>}
             </BottomContent>
             {cardActive && <CTALink>See the Case Study {" >"} </CTALink>}
-          </QuoteContent>
+          </PullQuoteContent>
           {cardActive && (
             <SideImg
               src={media.mobile ? LogoRightMobile : LightThemeLogo}
-              alt={"Aon Logo"}
+              alt={"Aon-Dynamic-Logo"}
             />
           )}
-        </ContentWrapper>
-      </PullQuoteWrapper>
-    </Wrapper>
+        </AllContentDiv>
+      </ComponentWrapper>
+    </OuterMostWrapper>
   )
 }
 
@@ -80,7 +81,7 @@ const CTALink = styled.button`
   }
 
   ${media.mobile} {
-    bottom:-8.168vw;
+    bottom: -8.168vw;
   }
 `
 const SideImg = styled.img`
@@ -98,12 +99,12 @@ const SideImg = styled.img`
   }
 
   ${media.mobile} {
-    padding:0vw 0vw 0vw 0vw;
-    width:87.85vw;
+    padding: 0vw 0vw 0vw 0vw;
+    width: 87.85vw;
     height: 56.075vw;
   }
 `
-const Address = styled.p`
+const Location = styled.p`
   ${text.bodyM};
   color: ${colors.white};
 `
@@ -127,7 +128,7 @@ const BottomContent = styled.div`
   }
 
   ${media.tablet} {
-    margin-top:7.477vw;
+    margin-top: 7.477vw;
   }
 
   ${media.mobile} {
@@ -144,7 +145,7 @@ const Body = styled.h3`
     ${text.h3Mobile}
   }
 `
-const BodyL = styled.h2`
+const BodyLarge = styled.h2`
   ${text.h2};
   margin: unset;
   color: ${colors.white};
@@ -154,7 +155,7 @@ const BodyL = styled.h2`
     ${text.h3Mobile}
   }
 `
-const StyledEyebrow = styled.p`
+const Eyebrow = styled.p`
   ${text.eyebrow};
   margin: unset;
   color: ${colors.white};
@@ -162,10 +163,8 @@ const StyledEyebrow = styled.p`
   ${media.fullWidth} {
     margin-bottom: 48px;
   }
-
-
 `
-const QuoteContent = styled.div`
+const PullQuoteContent = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -182,7 +181,7 @@ const QuoteContent = styled.div`
     width: ${props => (props.cardactive ? "86.916vw" : "87.383vw")};
   }
 `
-const ContentWrapper = styled.div`
+const AllContentDiv = styled.div`
   display: flex;
   flex-direction: row;
   width: ${props => (props.cardactive ? "79.444vw" : "71.389vw")};
@@ -202,25 +201,26 @@ const ContentWrapper = styled.div`
 
   ${media.mobile} {
     justify-content: space-between;
-    flex-direction:column-reverse;
+    flex-direction: column-reverse;
     width: ${props => (props.cardactive ? "87.85vw" : "75.293vw")};
     height: ${props => (props.cardactive ? "71.028vw" : "75.293vw")};
     gap: ${props => (props.cardactive ? "5.477vw" : "unset")};
   }
 `
-const PullQuoteWrapper = styled.div`
+const ComponentWrapper = styled.div`
   display: flex;
+  background-position: center;
+  background-repeat: no-repeat;
   flex-direction: ${props => (props.cardactive ? "row" : "column")};
   background-image: ${props =>
     props.cardactive ? `url(${CardBackgroundImg})` : `url(${LargeQuoteBg})`};
   background-size: ${props => (props.cardactive ? "cover" : "contain")};
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 1.667vw;
   width: 88.889vw;
   height: ${props => (props.cardactive ? "34.792vw" : "49.931vw")};
   padding: ${props =>
     props.cardactive ? "5.556vw 4.722vw" : "5.556vw 12.778vw 5.556vw 4.722vw"};
+  border-radius: 1.667vw;
+
   ${media.fullWidth} {
     border-radius: 24px;
     width: 1280px;
@@ -242,11 +242,11 @@ const PullQuoteWrapper = styled.div`
   }
 
   ${media.mobile} {
-    flex-direction:column-reverse;
-    justify-content:space-between;
+    flex-direction: column-reverse;
+    justify-content: space-between;
     background-image: ${props =>
       props.cardactive ? `url(${MobileCardImg})` : `url(${MobileLargeImg})`};
-      background-size:contain;
+    background-size: contain;
     border-radius: 2.344vw;
     width: 97.262vw;
     height: ${props => (props.cardactive ? "152.804vw" : "143.925vw")};
@@ -256,7 +256,7 @@ const PullQuoteWrapper = styled.div`
         : "9.346vw 4.206vw 14.019vw 4.673vw"};
   }
 `
-const Wrapper = styled.div`
+const OuterMostWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -271,7 +271,6 @@ const Wrapper = styled.div`
   }
 
   ${media.mobile} {
-   
     padding: 9.346vw 1.869vw;
   }
 `
