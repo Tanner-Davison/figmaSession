@@ -19,6 +19,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-image`,
     "gatsby-plugin-styled-components",
+    "gatsby-plugin-svgr",
     {
       resolve: "gatsby-plugin-alias-imports",
       options: {

@@ -12,6 +12,7 @@ import Header from "./header"
 import "./layout.css";
 import Footer from "./GlobalComponents/Footer";
 import SideQuote from "./SideQuote";
+import PullQuote from "./PullQuote";
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -28,6 +29,7 @@ const Layout = ({ children }) => {
     <>
     
     <SideQuote/>
+    <PullQuote/>
    <Footer/>
     </>
   )

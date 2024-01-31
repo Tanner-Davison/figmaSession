@@ -164,7 +164,7 @@ const LeftDiv = styled.div`
   justify-content: center;
   background-color: #f5f4f7;
   width: 31.111vw;
-  border-radius: 0.833vw;
+  border-radius: 1.667vw;
   padding: 2.778vw 2.222vw;
   transition: transform 0.3s ease-in-out;
   &:hover {
@@ -172,13 +172,13 @@ const LeftDiv = styled.div`
   }
   ${media.fullWidth} {
     width: 448px;
-    border-radius: 12px;
+    border-radius: 24px;
     padding: 40px 32px 0px 32px;
   }
 
   ${media.tablet} {
     width: 39.063vw;
-    border-radius: 1.172vw;
+    border-radius:2.344vw;
     padding: 3.906vw 3.125vw;
   }
 
