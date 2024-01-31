@@ -90,7 +90,7 @@ const RightDiv = styled.div`
   &:hover {
     transform: scale(1.1);
   }
-  /* border: 2px solid lightblue; */
+
   width: 39.167vw;
 
   ${media.fullWidth} {
@@ -192,10 +192,11 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+
   gap: 9.167vw;
   padding: 5.556vw 0;
   ${media.fullWidth} {
+   
     gap: 132px;
     padding: 80px 0;
   }

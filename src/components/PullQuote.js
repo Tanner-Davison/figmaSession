@@ -8,6 +8,11 @@ import { dummyData } from "./content/pullQuoteContent"
 import CardBackgroundImg from "../images/CardBackgroundImg.webp"
 import LargeQuoteBg from "../images/LargeQuoteBg.webp"
 import LightThemeLogo from "../images/LightThemeLogo.webp"
+import TabletBg from '../images/TabletBg.webp';
+import TabletCardBg from '../images/TabletCardBg.webp';
+import MobileLargeImg from '../images/MobileLargeImg.webp';
+import MobileCardImg from '../images/MobileCardImg.webp';
+import LogoRightMobile from '../images/LogoRightMobile.webp';
 
 const PullQuote = () => {
   const [cardData, setLightData] = useState([])
@@ -23,9 +28,6 @@ const PullQuote = () => {
         setLightData(item.data)
       }
     })
-    console.log(darktData)
-    console.log(cardData)
-    console.log(cardActive)
   }, [darktData, cardData, cardActive])
 
   return (
@@ -37,7 +39,7 @@ const PullQuote = () => {
               {cardActive ? cardData.eyebrow : darktData.eyebrow}
             </StyledEyebrow>
             {!cardActive && <BodyL>{darktData.body}</BodyL>}
-            {cardActive && <Body>{cardData.body}</Body>}
+            {cardActive && <Body>{media.mobile ? cardData.bodyMobile : cardData.body}</Body>}
             <BottomContent>
               <AuthorContent>
                 {cardActive ? cardData.author : darktData.author}
@@ -45,9 +47,14 @@ const PullQuote = () => {
               <Title>{cardActive ? cardData.title : darktData.title}</Title>
               {!cardActive && <Address>{darktData.address}</Address>}
             </BottomContent>
-            {cardActive && <CTALink>See the Case Study</CTALink>}
+            {cardActive && <CTALink>See the Case Study {" >"} </CTALink>}
           </QuoteContent>
-          {cardActive && <SideImg src={LightThemeLogo} alt={"Aon Logo"} />}
+          {cardActive && (
+            <SideImg
+              src={media.mobile ? LogoRightMobile : LightThemeLogo}
+              alt={"Aon Logo"}
+            />
+          )}
         </ContentWrapper>
       </PullQuoteWrapper>
     </Wrapper>
@@ -69,9 +76,11 @@ const CTALink = styled.button`
   }
 
   ${media.tablet} {
+    bottom: 1px;
   }
 
   ${media.mobile} {
+    bottom:-8.168vw;
   }
 `
 const SideImg = styled.img`
@@ -83,9 +92,15 @@ const SideImg = styled.img`
   }
 
   ${media.tablet} {
+    margin-top: 4.541vw;
+    width: 39.453vw;
+    height: 32.031vw;
   }
 
   ${media.mobile} {
+    padding:0vw 0vw 0vw 0vw;
+    width:87.85vw;
+    height: 56.075vw;
   }
 `
 const Address = styled.p`
@@ -112,20 +127,32 @@ const BottomContent = styled.div`
   }
 
   ${media.tablet} {
+    margin-top:7.477vw;
   }
 
   ${media.mobile} {
+    margin-top: 14.019vw;
   }
 `
 const Body = styled.h3`
   ${text.h3};
   margin: unset;
   color: ${colors.white};
+  text-indent: -0.39em;
+
+  ${media.mobile} {
+    ${text.h3Mobile}
+  }
 `
 const BodyL = styled.h2`
   ${text.h2};
   margin: unset;
   color: ${colors.white};
+  text-indent: -0.39em;
+
+  ${media.mobile} {
+    ${text.h3Mobile}
+  }
 `
 const StyledEyebrow = styled.p`
   ${text.eyebrow};
@@ -136,11 +163,7 @@ const StyledEyebrow = styled.p`
     margin-bottom: 48px;
   }
 
-  ${media.tablet} {
-  }
 
-  ${media.mobile} {
-  }
 `
 const QuoteContent = styled.div`
   position: relative;
@@ -152,9 +175,11 @@ const QuoteContent = styled.div`
   }
 
   ${media.tablet} {
+    width: ${props => (props.cardactive ? "42.969vw" : "79.199vw")};
   }
 
   ${media.mobile} {
+    width: ${props => (props.cardactive ? "86.916vw" : "87.383vw")};
   }
 `
 const ContentWrapper = styled.div`
@@ -168,11 +193,19 @@ const ContentWrapper = styled.div`
     height: ${props => (props.cardactive ? "355px" : "559px")};
     gap: ${props => (props.cardactive ? "60px" : "unset")};
   }
-
   ${media.tablet} {
+    justify-content: space-between;
+    width: ${props => (props.cardactive ? "970px" : "36.523vw")};
+    height: ${props => (props.cardactive ? "57.324vw" : "50.391vw")};
+    gap: ${props => (props.cardactive ? "9.473vw" : "unset")};
   }
 
   ${media.mobile} {
+    justify-content: space-between;
+    flex-direction:column-reverse;
+    width: ${props => (props.cardactive ? "87.85vw" : "75.293vw")};
+    height: ${props => (props.cardactive ? "71.028vw" : "75.293vw")};
+    gap: ${props => (props.cardactive ? "5.477vw" : "unset")};
   }
 `
 const PullQuoteWrapper = styled.div`
@@ -197,9 +230,30 @@ const PullQuoteWrapper = styled.div`
   }
 
   ${media.tablet} {
+    background-image: ${props =>
+      props.cardactive ? `url(${TabletCardBg})` : `url(${TabletBg})`};
+    border-radius: 2.344vw;
+    width: 94.727vw;
+    height: ${props => (props.cardactive ? "52.832vw" : "75.293vw")};
+    padding: ${props =>
+      props.cardactive
+        ? "5.859vw 3.711vw 5.859vw 4.688vw"
+        : "5.859vw 11.719vw 5.859vw 4.688vw"};
   }
 
   ${media.mobile} {
+    flex-direction:column-reverse;
+    justify-content:space-between;
+    background-image: ${props =>
+      props.cardactive ? `url(${MobileCardImg})` : `url(${MobileLargeImg})`};
+      background-size:contain;
+    border-radius: 2.344vw;
+    width: 97.262vw;
+    height: ${props => (props.cardactive ? "152.804vw" : "143.925vw")};
+    padding: ${props =>
+      props.cardactive
+        ? "4.206vw 4.206vw 14.019vw 4.206vw"
+        : "9.346vw 4.206vw 14.019vw 4.673vw"};
   }
 `
 const Wrapper = styled.div`
@@ -213,8 +267,11 @@ const Wrapper = styled.div`
   }
 
   ${media.tablet} {
+    padding: 5.859vw 2.637vw;
   }
 
   ${media.mobile} {
+   
+    padding: 9.346vw 1.869vw;
   }
 `

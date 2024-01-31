@@ -15,10 +15,12 @@ export const dummyData = [
   },
   {
     theme: "light",
-   
+
     data: {
       eyebrow: "TESTIMONIAL",
       body: "“H3 Headline on Longer Quotes. Loremr I. H2 Headline on Shorter Quotes . More Lorem Ipsum.”",
+      bodyMobile:
+        "“H3 Mobile Headline on longer quotes. H2 headline for shorter quotes on mobile”",
       author: "First and Last Name",
       title: "Person's Title or Company Name",
       cta: true,
