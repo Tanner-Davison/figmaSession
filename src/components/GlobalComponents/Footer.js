@@ -269,8 +269,6 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   background-color: #191d1e;
-  
-  width: 100vw;
   height: 29.861vw;
   padding: 5.556vw 10.278vw 2.986vw 10.278vw;
   gap: 3.194vw;
