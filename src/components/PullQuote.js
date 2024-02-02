@@ -267,5 +267,9 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding-bottom:6.167vw;
+  padding-bottom: 6.167vw;
+  ${media.fullWidth} {
+    padding-bottom: 89px;
+  }
+
 `
