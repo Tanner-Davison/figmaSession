@@ -16,7 +16,6 @@ export const dummyData = [
   },
   {
     theme: "light",
-
     data: {
       eyebrow: "TESTIMONIAL",
       body: "“H3 Headline on Longer Quotes. Loremr I. H2 Headline on Shorter Quotes More Lorem Ipsum.”",
