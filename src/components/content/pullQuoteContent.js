@@ -3,7 +3,7 @@
 export const dummyData = [
   {
     theme: "dark",
-    cardActivated: true,
+    cardActivated: false,
     data: {
       eyebrow: "TESTIMONIAL",
       body: "“H2 Headline used for this Component. Lorem ipsum eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in peltesque massa placerat duis ultriesis lacus sed turpis tincidunt id in ante”",

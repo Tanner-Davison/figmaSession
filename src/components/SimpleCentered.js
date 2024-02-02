@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import colors from "styles/colors"
 import media from "styles/media"
@@ -10,6 +10,7 @@ import useMedia from "../utils/useMedia"
 import { content } from "./content/simpleCenteredContent"
 import commonArrowLink from "./svg Assets/commonArrowLink.svg"
 import commonArrowOrange from "./svg Assets/commonArrowOrange.svg"
+import { gsap } from "gsap"
 
 const SimpleCentered = () => {
   const [withImage, setWithImage] = useState(true)
@@ -21,6 +22,7 @@ const SimpleCentered = () => {
     CenteredImgTablet,
     CenteredImgMobile
   )
+
   const handleClick = layout => {
     if (layout === "text") {
       setWithImage(false)
@@ -32,17 +34,43 @@ const SimpleCentered = () => {
       setWithImage(false)
       setStatisticCards(true)
     }
-    return
   }
+
   const statCards = content.stats.options.map((card, index) => {
     return (
-      <Card>
+      <Card key={index}>
         <CustomNumber>{card.percentage}</CustomNumber>
         <StatCardBody>{card.statBody}</StatCardBody>
         <StatsLink>{card.statLinkText}</StatsLink>
       </Card>
     )
   })
+
+  useEffect(() => {
+    const tl = gsap.timeline()
+    tl.to("#bgBlack", { x: 50 })
+  }, [])
+
+  const handleMouseMove = event => {
+    const mouseX = event.clientX
+    const parentContainer = document.getElementById("bgBlack").parentNode
+    const background = document.getElementById("bgBlack")
+    const backgroundCenterX = background.offsetWidth / 2
+    const maxAllowedX = parentContainer.offsetWidth - background.offsetWidth
+    const constrainedX = Math.min(
+      Math.max(
+        backgroundCenterX,
+        mouseX - parentContainer.getBoundingClientRect().left
+      ),
+      maxAllowedX + backgroundCenterX
+    )
+    gsap.to("#bgBlack", { x: constrainedX - backgroundCenterX })
+  }
+
+  const handleMouseLeave = () => {
+    gsap.to("#bgBlack", { x: 50 })
+  }
+
   return (
     <Wrapper>
       <HeaderDiv>
@@ -60,20 +88,26 @@ const SimpleCentered = () => {
       </BodyDiv>
       {withImage && <Image src={currentImg} />}
       {statisticCards && <StatsWrapperDiv>{statCards}</StatsWrapperDiv>}
-      <Controller>
-        <Button
-          active={!withImage && !statisticCards}
-          onClick={() => handleClick("text")}
-        >
-          Text Only
-        </Button>
-        <Button active={withImage} onClick={() => handleClick("img")}>
-          Centered Img
-        </Button>
-        <Button active={statisticCards} onClick={() => handleClick("stats")}>
-          Centered Stats
-        </Button>
-      </Controller>
+      <ClickableWrapper
+        onMouseMove={e => handleMouseMove(e)}
+        onMouseLeave={() => handleMouseLeave()}
+      >
+        <Controller>
+          <Button
+            active={!withImage && !statisticCards}
+            onClick={() => handleClick("text")}
+          >
+            Text Only
+          </Button>
+          <Button active={withImage} onClick={() => handleClick("img")}>
+            Centered Img
+          </Button>
+          <Button active={statisticCards} onClick={() => handleClick("stats")}>
+            Centered Stats
+          </Button>
+        </Controller>
+        <Background id={"bgBlack"} />
+      </ClickableWrapper>
     </Wrapper>
   )
 }
@@ -83,14 +117,14 @@ const StatsLink = styled.a`
   cursor: pointer;
   text-decoration: none;
   color: ${colors.primaryOrange};
-  transition: transform .3s ease-in-out;
-  &:hover{
+  transition: transform 0.3s ease-in-out;
+  &:hover {
     transform: scale(1.08);
   }
   &:after {
-    content: url(${commonArrowOrange}); 
+    content: url(${commonArrowOrange});
     display: inline-block;
-    margin-left: 5px; 
+    margin-left: 5px;
     width: 6.5px;
     height: 10px;
   }
@@ -193,7 +227,7 @@ const Link = styled.a`
   color: ${props => props.color};
   text-decoration: none;
   margin: unset;
-  transition: transform .3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   &:hover {
     transform: scale(1.08);
   }
@@ -254,6 +288,7 @@ const HeaderDiv = styled.div`
   }
 `
 const Button = styled.button`
+  position: relative;
   ${text.bodyMBold};
   cursor: pointer;
   border: none;
@@ -265,6 +300,7 @@ const Button = styled.button`
   padding: 0.347vw;
   border: 0.069vw groove black;
   transition: transform 0.3s ease-in-out;
+  z-index: 2;
   &:hover {
     transform: scale(1.08);
   }
@@ -289,7 +325,22 @@ const Button = styled.button`
     border: 0.234vw groove black;
   }
 `
+const Background = styled.div`
+  position: absolute;
+  display: flex;
+  box-sizing: border-box;
+  align-self: center;
+  right: 0;
+  left: 0;
+  background-color: ${colors.black};
+  width: 18.889vw;
+  height: 125%;
+  padding: 15px 0px;
+  border-radius: 11px;
+  z-index: 2;
+`
 const Controller = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,6 +350,7 @@ const Controller = styled.div`
   gap: 1.389vw;
   border-radius: 0.672vw;
   padding: 1.042vw 1vw;
+  z-index: 5;
   ${media.fullWidth} {
     border: 1px groove black;
     gap: 20px;
@@ -320,6 +372,13 @@ const Controller = styled.div`
     padding: 1.701vw 1.636vw;
   }
 `
+const ClickableWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 2;
+`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -328,6 +387,7 @@ const Wrapper = styled.div`
   justify-content: center;
   padding-bottom: 5.556vw;
   gap: 2.778vw;
+  z-index: 1;
   ${media.fullWidth} {
     padding-bottom: 80px;
     gap: 40px;
