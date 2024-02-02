@@ -1,81 +1,104 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import media from "styles/media"
 import colors from "styles/colors"
+import media from "styles/media"
 import text from "styles/text"
-import { content } from "./content/simpleCenteredContent"
 import CenteredImgLarge from "../images/CenteredImgLarge.webp"
-import CenteredImgTablet from "../images/CenteredImgTablet.webp"
 import CenteredImgMobile from "../images/CenteredImgMobile.webp"
+import CenteredImgTablet from "../images/CenteredImgTablet.webp"
 import useMedia from "../utils/useMedia"
+import { content } from "./content/simpleCenteredContent"
+import commonArrowLink from "./svg Assets/commonArrowLink.svg"
+import commonArrowOrange from "./svg Assets/commonArrowOrange.svg"
 
 const SimpleCentered = () => {
-  const [withImage, setWithImage]= useState(true);
-  const [statisticCards, setStatisticCards]=useState(false);
+  const [withImage, setWithImage] = useState(true)
+  const [statisticCards, setStatisticCards] = useState(false)
 
   const currentImg = useMedia(
     CenteredImgLarge,
     CenteredImgLarge,
     CenteredImgTablet,
     CenteredImgMobile
-  );
-  const handleClick=(layout)=>{
-    if(layout === 'text'){
-      setWithImage(false);
-      setStatisticCards(false);
-    } else if(layout === 'img'){
-      setStatisticCards(false);
-      setWithImage(true);
-    }else if(layout === 'stats'){
-      setWithImage(false);
-      setStatisticCards(true);
-    };
-    return;
+  )
+  const handleClick = layout => {
+    if (layout === "text") {
+      setWithImage(false)
+      setStatisticCards(false)
+    } else if (layout === "img") {
+      setStatisticCards(false)
+      setWithImage(true)
+    } else if (layout === "stats") {
+      setWithImage(false)
+      setStatisticCards(true)
+    }
+    return
   }
-  const statCards = content.stats.options.map((card, index)=>{
-    return(
-      
-          <Card>
-              <CustomNumber>{card.percentage}</CustomNumber>
-              <StatCardBody>{card.statBody}</StatCardBody>
-              <StatsLink>{card.statLinkText}</StatsLink>
-          </Card>
-    
+  const statCards = content.stats.options.map((card, index) => {
+    return (
+      <Card>
+        <CustomNumber>{card.percentage}</CustomNumber>
+        <StatCardBody>{card.statBody}</StatCardBody>
+        <StatsLink>{card.statLinkText}</StatsLink>
+      </Card>
     )
   })
   return (
     <Wrapper>
-      <Controller>
-        <Button onClick={() => handleClick("text")}>Text Only</Button>
-        <Button onClick={() => handleClick("img")}>Centered Img</Button>
-        <Button onClick={() => handleClick("stats")}>Centered Stats</Button>
-      </Controller>
       <HeaderDiv>
         <Eyebrow>{content.eyebrow}</Eyebrow>
         <Headline>{content.headline}</Headline>
       </HeaderDiv>
       <BodyDiv>
         <Body>{content.body}</Body>
-        <Link color={!statisticCards ? `${colors.primaryOrange}` : "#838587"}>
+        <Link
+          color={!statisticCards ? `${colors.primaryOrange}` : "#838587"}
+          fill={!statisticCards}
+        >
           {content.link}
         </Link>
       </BodyDiv>
       {withImage && <Image src={currentImg} />}
       {statisticCards && <StatsWrapperDiv>{statCards}</StatsWrapperDiv>}
+      <Controller>
+        <Button
+          active={!withImage && !statisticCards}
+          onClick={() => handleClick("text")}
+        >
+          Text Only
+        </Button>
+        <Button active={withImage} onClick={() => handleClick("img")}>
+          Centered Img
+        </Button>
+        <Button active={statisticCards} onClick={() => handleClick("stats")}>
+          Centered Stats
+        </Button>
+      </Controller>
     </Wrapper>
   )
 }
 export default SimpleCentered
-const StatsLink = styled.a `
-${text.bodyMBold};
-text-decoration: none;
-color:${colors.primaryOrange};
-
+const StatsLink = styled.a`
+  ${text.bodyMBold};
+  cursor: pointer;
+  text-decoration: none;
+  color: ${colors.primaryOrange};
+  transition: transform .3s ease-in-out;
+  &:hover{
+    transform: scale(1.08);
+  }
+  &:after {
+    content: url(${commonArrowOrange}); 
+    display: inline-block;
+    margin-left: 5px; 
+    width: 6.5px;
+    height: 10px;
+  }
 `
 const StatCardBody = styled.p`
-${text.bodyM}
-margin:unset;
-margin-bottom:1.389vw;
+  ${text.bodyM}
+  margin:unset;
+  margin-bottom: 1.389vw;
 `
 const CustomNumber = styled.p`
   font-family: Orbitron;
@@ -92,6 +115,17 @@ const CustomNumber = styled.p`
     line-height: 48px;
     margin-bottom: 24px;
   }
+  ${media.tablet} {
+    font-size: 4.688vw;
+    line-height: 4.688vw;
+  }
+  ${media.mobile} {
+    font-family: Orbitron;
+    font-size: 9.813vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 9.813vw;
+  }
 `
 const Card = styled.div`
   display: flex;
@@ -103,11 +137,11 @@ const Card = styled.div`
   }
 
   ${media.tablet} {
-    width:29.297vw
+    width: 29.297vw;
   }
 
   ${media.mobile} {
-    width:87.85vw;
+    width: 87.85vw;
   }
 `
 const StatsWrapperDiv = styled.div`
@@ -119,7 +153,13 @@ const StatsWrapperDiv = styled.div`
   ${media.fullWidth} {
     gap: 41px;
   }
-
+  ${media.tablet} {
+    gap: 4.004vw;
+  }
+  ${media.mobile} {
+    flex-direction: column;
+    gap: 7.477vw;
+  }
 `
 const Image = styled.img`
   width: 63.333vw;
@@ -133,27 +173,42 @@ const Image = styled.img`
 
   ${media.tablet} {
     width: 89.063vw;
-    height:43.848vw ;
+    height: 43.848vw;
     max-height: 50vw;
     min-height: 19.531vw;
   }
 
   ${media.mobile} {
     flex-direction: column;
-    width:87.85vw;
+    width: 87.85vw;
+    width: 87.85vw;
+    height: 47.664vw;
     max-height: 49.299vw;
     min-height: 10.514vw;
   }
 `
 const Link = styled.a`
   ${text.bodyMBold};
-  color: ${props=> (props.color)};
+  cursor: pointer;
+  color: ${props => props.color};
   text-decoration: none;
   margin: unset;
+  transition: transform .3s ease-in-out;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:after {
+    content: ${props =>
+      props.fill ? `url(${commonArrowOrange})` : `url(${commonArrowLink})`};
+    display: inline-block;
+    width: 6.5px;
+    height: 10px;
+    margin-left: 5px;
+  }
 `
 const Body = styled.p`
   ${text.bodyM};
-  margin:unset;
+  margin: unset;
   max-width: unset;
 `
 const BodyDiv = styled.div`
@@ -169,20 +224,20 @@ const BodyDiv = styled.div`
   }
 
   ${media.tablet} {
-    width:80.469vw;
+    width: 80.469vw;
   }
 
   ${media.mobile} {
-    width:87.85vw
+    width: 87.85vw;
   }
 `
 const Headline = styled.h2`
   ${text.h2};
-  margin:unset;
+  margin: unset;
 `
 const Eyebrow = styled.p`
   ${text.eyebrow};
-  margin:unset;
+  margin: unset;
 `
 const HeaderDiv = styled.div`
   display: flex;
@@ -194,39 +249,78 @@ const HeaderDiv = styled.div`
   ${media.fullWidth} {
     gap: 24px;
   }
-  ${media.tablet}{
+  ${media.tablet} {
     width: 92.188vw;
   }
-
 `
 const Button = styled.button`
-text-decoration: none;
-${text.bodyMBold};
-
-${media.mobile}{
-  ${text.bodyXSBold}
-}
+  ${text.bodyMBold};
+  cursor: pointer;
+  border: none;
+  background-color: ${props =>
+    props.active ? `${colors.primaryOrange}` : `${colors.white}`};
+  color: ${props => (props.active ? `${colors.white}` : `${colors.black}`)};
+  width: max-content;
+  border-radius: 0.672vw;
+  padding: 0.347vw;
+  border: 0.069vw groove black;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+  ${media.fullWidth} {
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px groove black;
+    transition: transform 0.3s ease-in-out;
+  }
+  ${media.tablet} {
+    border-radius: 1vw;
+    padding: 0.557vw;
+    border: 1px groove black;
+  }
+  ${media.mobile} {
+    ${text.bodyXSBold}
+    border-radius:1.636vw;
+    padding: 0.557vw;
+    border: 0.234vw groove black;
+  }
 `
 const Controller = styled.div`
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  bottom: 1.389vw;
+  background-image: ${colors.mediumPurplGradient};
+  background-position: center;
+  border: 0.069vw groove black;
+  gap: 1.389vw;
+  border-radius: 0.672vw;
+  padding: 1.042vw 1vw;
   ${media.fullWidth} {
+    border: 1px groove black;
     gap: 20px;
-    bottom: 20px;
+    border-radius: 20px;
+    padding: 15px 14px;
   }
 
   ${media.tablet} {
+    border: 0.234vw groove black;
+    gap: 2.673vw;
+    border-radius: 10px;
+    padding: 1.701vw 1.636vw;
   }
 
   ${media.mobile} {
+    border: 0.234vw groove black;
+    gap: 2.673vw;
+    border-radius: 10px;
+    padding: 1.701vw 1.636vw;
   }
 `
 const Wrapper = styled.div`
-position: relative;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -235,15 +329,17 @@ position: relative;
   padding-bottom: 5.556vw;
   gap: 2.778vw;
   ${media.fullWidth} {
-    padding-bottom:5.556vw;
+    padding-bottom: 80px;
     gap: 40px;
   }
 
   ${media.tablet} {
-    padding-bottom: 7.813vw;
+    padding-bottom: 5.859vw;
+    gap: 3.906vw;
   }
 
   ${media.mobile} {
-    padding:9.346vw 9.346vw 9.346vw 9.346vw;
+    gap: 9.346vw;
+    padding: 9.346vw 9.346vw 9.346vw 9.346vw;
   }
 `
