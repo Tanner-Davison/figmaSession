@@ -16,11 +16,14 @@ import LogoRightMobile from '../images/LogoRightMobile.webp';
 
 const PullQuote = () => {
   const [cardData, setLightData] = useState([])
-  const [darkData, setDarkData] = useState([])
+  const [darktData, setDarkData] = useState([])
   const [cardActive, setCardActive] = useState(null)
-  const [isMobile, setIsMobile]= useState(false)
-  const contentToRender = isMobile ? darkData.bodyMobile : darkData.body;
-  const cardContentToRender = isMobile ? cardData.bodyMobile :cardData.body;
+  const [isMobile, setIsMobile]= useState(window.innerWidth <= 480);
+  
+  const contentToRender =
+    isMobile <= 480 ? darktData.bodyMobile : darktData.body
+  const cardContentToRender =
+    isMobile ? cardData.bodyMobile : cardData.body
 
   useEffect(() => {
     dummyData.forEach(item => {
@@ -31,7 +34,7 @@ const PullQuote = () => {
         setLightData(item.data)
       }
     })
-  }, [darkData, cardData, cardActive]) 
+  }, [darktData, cardData, cardActive]) 
 
   return (
     <Wrapper cardactive={cardActive}>
@@ -39,16 +42,16 @@ const PullQuote = () => {
         <ContentWrapper cardactive={cardActive}>
           <QuoteContent cardactive={cardActive}>
             <StyledEyebrow>
-              {cardActive ? cardData.eyebrow : darkData.eyebrow}
+              {cardActive ? cardData.eyebrow : darktData.eyebrow}
             </StyledEyebrow>
             {!cardActive && <BodyL>{contentToRender}</BodyL>}
-            {cardActive && <Body>{isMobile ? cardData.bodyMobile: cardContentToRender}</Body>}
+            {cardActive && <Body>{cardContentToRender}</Body>}
             <BottomContent>
               <AuthorContent>
-                {cardActive ? cardData.author : darkData.author}
+                {cardActive ? cardData.author : darktData.author}
               </AuthorContent>
-              <Title>{cardActive ? cardData.title : darkData.title}</Title>
-              {!cardActive && <Address>{darkData.address}</Address>}
+              <Title>{cardActive ? cardData.title : darktData.title}</Title>
+              {!cardActive && <Address>{darktData.address}</Address>}
             </BottomContent>
             {cardActive && <CTALink>See the Case Study {" >"} </CTALink>}
           </QuoteContent>
