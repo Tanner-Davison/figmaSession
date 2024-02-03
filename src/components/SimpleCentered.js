@@ -13,15 +13,25 @@ import commonArrowOrange from "./svg Assets/commonArrowOrange.svg"
 import { gsap } from "gsap"
 
 const SimpleCentered = () => {
-  const [withImage, setWithImage] = useState(true)
-  const [statisticCards, setStatisticCards] = useState(false)
-
+  const [withImage, setWithImage] = useState(null)
+  const [statisticCards, setStatisticCards] = useState(null)
+  const [shouldScroll, setShouldScroll] = useState(false)
   const currentImg = useMedia(
     CenteredImgLarge,
     CenteredImgLarge,
     CenteredImgTablet,
     CenteredImgMobile
   )
+
+  const scrollToButtons = () => {
+    const elementToScroll = document.getElementById("bgBlack")
+
+    elementToScroll.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "center",
+    })
+  }
 
   const handleClick = layout => {
     if (layout === "text") {
@@ -34,7 +44,8 @@ const SimpleCentered = () => {
       setWithImage(false)
       setStatisticCards(true)
     }
-  }
+    setShouldScroll(true)
+  };
 
   const statCards = content.stats.options.map((card, index) => {
     return (
@@ -49,7 +60,12 @@ const SimpleCentered = () => {
   useEffect(() => {
     const tl = gsap.timeline()
     tl.to("#bgBlack", { x: 50 })
-  }, [])
+
+    if (shouldScroll) {
+      scrollToButtons()
+      setShouldScroll(false)
+    }
+  }, [withImage, statisticCards, shouldScroll])
 
   const handleMouseMove = event => {
     const mouseX = event.clientX
@@ -81,7 +97,7 @@ const SimpleCentered = () => {
         <Body>{content.body}</Body>
         <Link
           color={!statisticCards ? `${colors.primaryOrange}` : "#838587"}
-          fill={!statisticCards}
+          $fill={!statisticCards}
         >
           {content.link}
         </Link>
@@ -90,19 +106,19 @@ const SimpleCentered = () => {
       {statisticCards && <StatsWrapperDiv>{statCards}</StatsWrapperDiv>}
       <ClickableWrapper
         onMouseMove={e => handleMouseMove(e)}
-        onMouseLeave={() => handleMouseLeave()}
+        onMouseLeave={e => handleMouseLeave(e)}
       >
         <Controller>
           <Button
-            active={!withImage && !statisticCards}
+            $active={!withImage ? !statisticCards : undefined}
             onClick={() => handleClick("text")}
           >
             Text Only
           </Button>
-          <Button active={withImage} onClick={() => handleClick("img")}>
+          <Button $active={withImage} onClick={() => handleClick("img")}>
             Centered Img
           </Button>
-          <Button active={statisticCards} onClick={() => handleClick("stats")}>
+          <Button $active={statisticCards} onClick={() => handleClick("stats")}>
             Centered Stats
           </Button>
         </Controller>
@@ -233,7 +249,7 @@ const Link = styled.a`
   }
   &:after {
     content: ${props =>
-      props.fill ? `url(${commonArrowOrange})` : `url(${commonArrowLink})`};
+      props.$fill ? `url(${commonArrowOrange})` : `url(${commonArrowLink})`};
     display: inline-block;
     width: 6.5px;
     height: 10px;
@@ -293,8 +309,8 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   background-color: ${props =>
-    props.active ? `${colors.primaryOrange}` : `${colors.white}`};
-  color: ${props => (props.active ? `${colors.white}` : `${colors.black}`)};
+    props.$active ? `${colors.primaryOrange}` : `${colors.white}`};
+  color: ${props => (props.$active ? `${colors.white}` : `${colors.black}`)};
   width: max-content;
   border-radius: 0.672vw;
   padding: 0.347vw;
@@ -332,7 +348,7 @@ const Background = styled.div`
   align-self: center;
   right: 0;
   left: 0;
-  background-color: ${colors.black};
+  background-color: #191D1E;
   width: 18.889vw;
   height: 125%;
   padding: 15px 0px;

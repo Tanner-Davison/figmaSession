@@ -16,7 +16,7 @@ const Footer = () => {
 
   const logoArray = [Facebook, LinkedIn, Twitter]
   const runLogos = logoArray.map(logo => (
-    <SocialLink src={logo} alt={"SocialLogo"} />
+    <SocialLink key={logo}src={logo} alt={"SocialLogo"} />
   ))
 
   const allFooterData = footerData.map(section => {
@@ -24,7 +24,7 @@ const Footer = () => {
       <LinkSection key={section.Header}>
         <HeaderTitle>{section.Header}</HeaderTitle>
         {section.Links.map(link => (
-          <LinkText>{link}</LinkText>
+          <LinkText key={link}>{link}</LinkText>
         ))}
       </LinkSection>
     )
@@ -101,28 +101,7 @@ const CompAddress = styled.p`
     width: 42.056vw;
   }
 `
-const RightContentDiv = styled.div`
-  display: flex;
-  gap: 3.472vw;
-  width: 50vw;
-  ${media.fullWidth} {
-    gap: 50px;
-    width: 720px;
-  }
 
-  ${media.tablet} {
-    width: 66.992vw;
-    gap: 3.906vw;
-  }
-
-  ${media.mobile} {
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-    justify-content: left;
-    width: 87.85vw;
-    gap: 10.019vw;
-  }
-`
 const RightContentWrapper = styled.div`
   display: flex;
   flex-direction: row;

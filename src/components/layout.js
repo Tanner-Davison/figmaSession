@@ -6,9 +6,9 @@
  */
 
 import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+// import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
+import HeroHeader from "./HeroHeader"
 import "./layout.css";
 import Footer from "./GlobalComponents/Footer";
 import SideQuote from "./SideQuote";
@@ -16,19 +16,19 @@ import PullQuote from "./PullQuote";
 import SimpleCentered from "./SimpleCentered";
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
+  // const data = useStaticQuery(graphql`
+  //   query SiteTitleQuery {
+  //     site {
+  //       siteMetadata {
+  //         title
+  //       }
+  //     }
+  //   }
+  // `)
 
   return (
     <>
-    
+    <HeroHeader/>
     <SideQuote/>
     <PullQuote/>
     <SimpleCentered/>

@@ -8,22 +8,21 @@ import { dummyData } from "./content/pullQuoteContent"
 import CardBackgroundImg from "../images/CardBackgroundImg.webp"
 import LargeQuoteBg from "../images/LargeQuoteBg.webp"
 import LightThemeLogo from "../images/LightThemeLogo.webp"
-import TabletBg from '../images/TabletBg.webp';
-import TabletCardBg from '../images/TabletCardBg.webp';
-import MobileLargeImg from '../images/MobileLargeImg.webp';
-import MobileCardImg from '../images/MobileCardImg.webp';
-import LogoRightMobile from '../images/LogoRightMobile.webp';
+import TabletBg from "../images/TabletBg.webp"
+import TabletCardBg from "../images/TabletCardBg.webp"
+import MobileLargeImg from "../images/MobileLargeImg.webp"
+import MobileCardImg from "../images/MobileCardImg.webp"
+import LogoRightMobile from "../images/LogoRightMobile.webp"
 
 const PullQuote = () => {
   const [cardData, setLightData] = useState([])
   const [darktData, setDarkData] = useState([])
-  const [cardActive, setCardActive] = useState(null)
-  const [isMobile, setIsMobile]= useState(window.innerWidth <= 480);
-  
+  const [cardActive, setCardActive] = useState("")
+  const [isMobile, setIsMobile] = useState("")
+
   const contentToRender =
     isMobile <= 480 ? darktData.bodyMobile : darktData.body
-  const cardContentToRender =
-    isMobile ? cardData.bodyMobile : cardData.body
+  const cardContentToRender = isMobile ? cardData.bodyMobile : cardData.body
 
   useEffect(() => {
     dummyData.forEach(item => {
@@ -34,13 +33,14 @@ const PullQuote = () => {
         setLightData(item.data)
       }
     })
-  }, [darktData, cardData, cardActive]) 
+    setIsMobile(window.innerWidth <= 480)
+  }, [darktData, cardData, cardActive])
 
   return (
-    <Wrapper cardactive={cardActive}>
-      <PullQuoteWrapper cardactive={cardActive}>
-        <ContentWrapper cardactive={cardActive}>
-          <QuoteContent cardactive={cardActive}>
+    <Wrapper $cardactive={cardActive}>
+      <PullQuoteWrapper $cardactive={cardActive}>
+        <ContentWrapper $cardactive={cardActive}>
+          <QuoteContent $cardactive={cardActive}>
             <StyledEyebrow>
               {cardActive ? cardData.eyebrow : darktData.eyebrow}
             </StyledEyebrow>
@@ -104,8 +104,8 @@ const SideImg = styled.img`
   }
 
   ${media.mobile} {
-    padding:0vw 0vw 0vw 0vw;
-    width:87.85vw;
+    padding: 0vw 0vw 0vw 0vw;
+    width: 87.85vw;
     height: 56.075vw;
   }
 `
@@ -168,20 +168,18 @@ const StyledEyebrow = styled.p`
   ${media.fullWidth} {
     margin-bottom: 48px;
   }
-
-
 `
 const QuoteContent = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: ${props => (props.cardactive ? "47.222vw" : "71.389vw")};
+  width: ${props => (props.$cardactive ? "47.222vw" : "71.389vw")};
   ${media.fullWidth} {
-    width: ${props => (props.cardactive ? "680px" : "1028px")};
+    width: ${props => (props.$cardactive ? "680px" : "1028px")};
   }
 
   ${media.tablet} {
-    width: ${props => (props.cardactive ? "42.969vw" : "79.199vw")};
+    width: ${props => (props.$cardactive ? "42.969vw" : "79.199vw")};
   }
 
   ${media.mobile} {
@@ -191,75 +189,74 @@ const QuoteContent = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: ${props => (props.cardactive ? "79.444vw" : "71.389vw")};
+  width: ${props => (props.$cardactive ? "79.444vw" : "71.389vw")};
   /* height: ${props => (props.cardactive ? "24.653vw" : "38.819vw")}; */
-  gap: ${props => (props.cardactive ? "4.167vw" : "unset")};
+  gap: ${props => (props.$cardactive ? "4.167vw" : "unset")};
   ${media.fullWidth} {
-    width: ${props => (props.cardactive ? "1144px" : "1028px")};
+    width: ${props => (props.$cardactive ? "1144px" : "1028px")};
     /* height: ${props => (props.cardactive ? "355px" : "559px")}; */
-    gap: ${props => (props.cardactive ? "60px" : "unset")};
+    gap: ${props => (props.$cardactive ? "60px" : "unset")};
   }
   ${media.tablet} {
     justify-content: space-between;
-    width: ${props => (props.cardactive ? "970px" : "unset")};
+    width: ${props => (props.$cardactive ? "970px" : "unset")};
     /* height: ${props => (props.cardactive ? "41.113vw" : "50.391vw")}; */
-    gap: ${props => (props.cardactive ? "9.473vw" : "unset")};
+    gap: ${props => (props.$cardactive ? "9.473vw" : "unset")};
   }
 
   ${media.mobile} {
     justify-content: space-between;
-    flex-direction:column-reverse;
-    width: ${props => (props.cardactive ? "87.85vw" : "unset")};
+    flex-direction: column-reverse;
+    width: ${props => (props.$cardactive ? "87.85vw" : "unset")};
     /* height: ${props => (props.cardactive ? "71.028vw" : "75.293vw")}; */
-    gap: ${props => (props.cardactive ? "5.477vw" : "87.383vw")};
+    gap: ${props => (props.$cardactive ? "5.477vw" : "87.383vw")};
   }
 `
 const PullQuoteWrapper = styled.div`
   display: flex;
-  flex-direction: ${props => (props.cardactive ? "row" : "column")};
+  flex-direction: ${props => (props.$cardactive ? "row" : "column")};
   background-image: ${props =>
-    props.cardactive ? `url(${CardBackgroundImg})` : `url(${LargeQuoteBg})`};
-  background-size: ${props => (props.cardactive ? "cover" : "cover")};
+    props.$cardactive ? `url(${CardBackgroundImg})` : `url(${LargeQuoteBg})`};
+  background-size: ${props => (props.$cardactive ? "cover" : "cover")};
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 1.667vw;
-  overflow:hidden;
+  overflow: hidden;
   width: 88.889vw;
-  
+
   padding: ${props =>
-    props.cardactive ? "5.556vw 4.722vw" : "5.556vw 12.778vw 5.556vw 4.722vw"};
+    props.$cardactive ? "5.556vw 4.722vw" : "5.556vw 12.778vw 5.556vw 4.722vw"};
   ${media.fullWidth} {
     border-radius: 24px;
     width: 1280px;
-    padding: ${props =>
-      props.cardactive ? "80px 68px" : "40x 18px"};
+    padding: ${props => (props.$cardactive ? "80px 68px" : "40x 18px")};
   }
 
   ${media.tablet} {
-    justify-content:center;
+    justify-content: center;
     background-image: ${props =>
-      props.cardactive ? `url(${TabletCardBg})` : `url(${TabletBg})`};
+      props.$cardactive ? `url(${TabletCardBg})` : `url(${TabletBg})`};
     border-radius: 2.344vw;
     width: 94.727vw;
-    height: ${props => (props.cardactive ? "unset" : "75.293vw")};
+    height: ${props => (props.$cardactive ? "unset" : "75.293vw")};
     padding: ${props =>
-      props.cardactive
+      props.$cardactive
         ? "5.859vw 3.711vw 5.859vw 4.688vw"
         : "5.859vw 11.719vw 5.859vw 4.688vw"};
   }
 
   ${media.mobile} {
-    flex-direction:column;
-    justify-content:center;
+    flex-direction: column;
+    justify-content: center;
     background-image: ${props =>
-      props.cardactive ? `url(${MobileCardImg})` : `url(${MobileLargeImg})`};
-      background-size:${props=>(props.cardactive ? "contain": "cover")};
+      props.$cardactive ? `url(${MobileCardImg})` : `url(${MobileLargeImg})`};
+    background-size: ${props => (props.cardactive ? "contain" : "cover")};
     border-radius: 2.344vw;
     width: 95.794vw;
     padding: ${props =>
-       props.cardactive
+      props.$cardactive
         ? "4.206vw 4.206vw 14.019vw 4.206vw"
-        : "9.346vw 4.206vw 18px 4.673vw"}; 
+        : "9.346vw 4.206vw 18px 4.673vw"};
   }
 `
 const Wrapper = styled.div`
@@ -271,5 +268,4 @@ const Wrapper = styled.div`
   ${media.fullWidth} {
     padding-bottom: 89px;
   }
-
 `
