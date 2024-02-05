@@ -45,27 +45,7 @@ const SimpleCentered = () => {
       setStatisticCards(true)
     }
     setShouldScroll(true)
-  };
-
-  const statCards = content.stats.options.map((card, index) => {
-    return (
-      <Card key={index}>
-        <CustomNumber>{card.percentage}</CustomNumber>
-        <StatCardBody>{card.statBody}</StatCardBody>
-        <StatsLink>{card.statLinkText}</StatsLink>
-      </Card>
-    )
-  })
-
-  useEffect(() => {
-    const tl = gsap.timeline()
-    tl.to("#bgBlack", { x: 50 })
-
-    if (shouldScroll) {
-      scrollToButtons()
-      setShouldScroll(false)
-    }
-  }, [withImage, statisticCards, shouldScroll])
+  }
 
   const handleMouseMove = event => {
     const mouseX = event.clientX
@@ -87,6 +67,25 @@ const SimpleCentered = () => {
     gsap.to("#bgBlack", { x: 50 })
   }
 
+  const statCards = content.stats.options.map((card, index) => {
+    return (
+      <Card key={index}>
+        <CustomNumber>{card.percentage}</CustomNumber>
+        <StatCardBody>{card.statBody}</StatCardBody>
+        <StatsLink>{card.statLinkText}</StatsLink>
+      </Card>
+    )
+  })
+  useEffect(() => {
+    const tl = gsap.timeline()
+    tl.to("#bgBlack", { x: 50 })
+
+    if (shouldScroll) {
+      scrollToButtons()
+      setShouldScroll(false)
+    }
+  }, [withImage, statisticCards, shouldScroll]);
+  
   return (
     <Wrapper>
       <HeaderDiv>
@@ -348,7 +347,7 @@ const Background = styled.div`
   align-self: center;
   right: 0;
   left: 0;
-  background-color: #191D1E;
+  background-color: #191d1e;
   width: 18.889vw;
   height: 125%;
   padding: 15px 0px;

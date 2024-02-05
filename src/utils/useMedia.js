@@ -19,7 +19,7 @@ export default function useMedia(fw, d, t, m) {
 
   useEffect(() => {
     handleUpdate()
-  }, [handleUpdate])
+  }, [handleUpdate, fw, d, t, m])
 
   useEffect(() => {
     if (isBrowser()) {

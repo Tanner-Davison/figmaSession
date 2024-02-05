@@ -15,6 +15,7 @@ import SideQuote from "./SideQuote";
 import PullQuote from "./PullQuote";
 import SimpleCentered from "./SimpleCentered";
 
+
 const Layout = ({ children }) => {
   // const data = useStaticQuery(graphql`
   //   query SiteTitleQuery {
