@@ -5,11 +5,31 @@ import colors from "styles/colors"
 import text from "styles/text"
 import { specifiedData } from "./content/heroContent"
 import useMedia from "../utils/useMedia"
-
+import { gsap } from "gsap"
 const HeroHeader = () => {
   const [pageData, setPageData] = useState()
   const [background, setBackground] = useState("")
   const options = { 1: "withVideo", 2: "simpleImg", 3: "withIcon" }
+
+  const handleMouseMove = event => {
+    const mouseX = event.clientX
+    const parentContainer = document.getElementById("bgBlackHero").parentNode
+    const background = document.getElementById("bgBlackHero")
+    const backgroundCenterX = background.offsetWidth / 2
+    const maxAllowedX = parentContainer.offsetWidth - background.offsetWidth
+    const constrainedX = Math.min(
+      Math.max(
+        backgroundCenterX,
+        mouseX - parentContainer.getBoundingClientRect().left
+      ),
+      maxAllowedX + backgroundCenterX
+    )
+    gsap.to("#bgBlackHero", { x: constrainedX - backgroundCenterX })
+  }
+
+  const handleMouseLeave = () => {
+    gsap.to("#bgBlackHero", { x: 50 })
+  }
 
   const backgroundImg = useMedia(
     pageData?.videoOverlay?.desktop,
@@ -25,45 +45,59 @@ const HeroHeader = () => {
   )
 
   useEffect(() => {
-    let dataIncoming = specifiedData(options[2])
+    const tl = gsap.timeline()
+    tl.to("#bgBlackHero", { x: 59 })
+    let dataIncoming = specifiedData(options[3])
     setPageData(dataIncoming)
     console.log(pageData)
   }, [pageData])
 
   return (
     pageData && (
-      <Wrapper $bgimg={pageData.id === "simpleImg" ? imageToUse : ""}>
-        <ContentDiv>
-          <MainContent>
-            <Header>{pageData.headline}</Header>
-            <Body>{pageData.body}</Body>
-            <DemoButton>
-              <ButtonText>{pageData.linkText}</ButtonText>
-            </DemoButton>
-          </MainContent>
-          <ImageContainer>
-            {pageData.id === "withVideo" && (
-              <ImageAbsolute $imgsrc={imageToUse} />
-            )}
+      <>
+        <Wrapper $bgimg={pageData.id === "simpleImg" ? imageToUse : ""}>
+          <ContentDiv>
+            <MainContent>
+              <Header>{pageData.headline}</Header>
+              <Body>{pageData.body}</Body>
+              <DemoButton>
+                <ButtonText>{pageData.linkText}</ButtonText>
+              </DemoButton>
+            </MainContent>
+            <ImageContainer>
+              {pageData.id === "withVideo" && (
+                <ImageAbsolute $imgsrc={imageToUse} />
+              )}
 
-            {pageData.id === "withVideo" && (
-              <ContentImg
-                src={backgroundImg}
-                icon={pageData.id === "withIcon"}
-                alt={backgroundImg}
-              />
-            )}
-            {pageData.id === "withIcon" && (
-              <ContentImg
-                src={imageToUse}
-                $icon={pageData.id === "withIcon"}
-                alt={backgroundImg}
-              />
-            )}
-           
-          </ImageContainer>
-        </ContentDiv>
-      </Wrapper>
+              {pageData.id === "withVideo" && (
+                <ContentImg
+                  src={backgroundImg}
+                  icon={pageData.id === "withIcon"}
+                  alt={backgroundImg}
+                />
+              )}
+              {pageData.id === "withIcon" && (
+                <ContentImg
+                  src={imageToUse}
+                  $icon={pageData.id === "withIcon"}
+                  alt={backgroundImg}
+                />
+              )}
+            </ImageContainer>
+          </ContentDiv>
+        </Wrapper>
+        <ClickableWrapper
+          onMouseMove={e => handleMouseMove(e)}
+          onMouseLeave={e => handleMouseLeave(e)}
+        >
+          <Controller>
+            <Button $active={""}>W/ Video</Button>
+            <Button>Background Image</Button>
+            <Button>With Icon</Button>
+          </Controller>
+          <Background id={"bgBlackHero"} />
+        </ClickableWrapper>
+      </>
     )
   )
 }
@@ -106,10 +140,8 @@ const ImageAbsolute = styled.div`
   }
 
   ${media.mobile} {
-    width: 93.925vw;
-    height: 93.925vw;
-    background-size:contain;
-    background-position: bottom right;
+    width: 105.841vw;
+    height: 73.131vw;
   }
 `
 
@@ -138,7 +170,7 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
   width: 42.847vw;
   height: 29.583vw;
   z-index: 1;
@@ -154,8 +186,8 @@ const ImageContainer = styled.div`
   }
 
   ${media.mobile} {
-    width: 105.841vw;
-    height: 73.131vw;
+    width: 87.85vw;
+    height: 87.85vw;
   }
 `
 const ButtonText = styled.p`
@@ -188,14 +220,14 @@ const DemoButton = styled.div`
 const Body = styled.p`
   ${text.bodyL}
   margin:unset;
-  ${media.mobile}{
+  ${media.mobile} {
     ${text.bodyL}
   }
 `
 const Header = styled.h1`
   ${text.h1}
-  ${media.mobile}{
-${text.h1Mobile}
+  ${media.mobile} {
+    ${text.h1Mobile}
   }
 `
 const MainContent = styled.div`
@@ -213,7 +245,7 @@ const MainContent = styled.div`
   }
 
   ${media.mobile} {
-    gap:7.477vw;
+    gap: 7.477vw;
   }
 `
 const ContentDiv = styled.div`
@@ -231,8 +263,113 @@ const ContentDiv = styled.div`
 
   ${media.mobile} {
     flex-direction: column-reverse;
-    gap:1.869vw;
+    gap: 1.869vw;
   }
+`
+const Background = styled.div`
+  position: absolute;
+  display: flex;
+  box-sizing: border-box;
+  align-self: center;
+  right: 0;
+  left: 0;
+  background-image: ${colors.greyGradient};
+  width: 18.889vw;
+  height: 125%;
+  padding: 15px 0px;
+  border-radius: 11px;
+  z-index: 2;
+  ${media.fullWidth} {
+    width: 272px;
+  }
+
+  ${media.tablet} {
+    width: 27.037vw;
+  }
+
+  ${media.mobile} {
+    width: 38.037vw;
+  }
+`
+const Button = styled.button`
+  position: relative;
+  ${text.bodyMBold};
+  cursor: pointer;
+  border: none;
+  background-color: ${props => (props.$active ? `#FFFFFF` : `${colors.white}`)};
+  color: ${props => (props.$active ? `${colors.white}` : `${colors.black}`)};
+  width: max-content;
+  border-radius: 0.672vw;
+  padding: 0.347vw;
+  border: 0.069vw groove black;
+  transition: transform 0.3s ease-in-out;
+  z-index: 2;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+  ${media.fullWidth} {
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px groove black;
+    transition: transform 0.3s ease-in-out;
+  }
+  ${media.tablet} {
+    border-radius: 1vw;
+    padding: 0.557vw;
+    border: 1px groove black;
+  }
+  ${media.mobile} {
+    ${text.bodyXSBold}
+    border-radius:1.636vw;
+    padding: 0.557vw;
+    border: 0.234vw groove black;
+  }
+`
+
+const Controller = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: ${colors.darkPurpleGradient};
+  background-position: center;
+  border: 0.069vw groove black;
+  gap: 1.389vw;
+  border-radius: 0.672vw;
+  padding: 1.042vw 1vw;
+  z-index: 5;
+  ${media.fullWidth} {
+    border: 1px groove black;
+    gap: 20px;
+    border-radius: 20px;
+    padding: 15px 14px;
+  }
+
+  ${media.tablet} {
+    border: 0.234vw groove black;
+    gap: 2.673vw;
+    border-radius: 10px;
+    padding: 1.701vw 1.636vw;
+  }
+
+  ${media.mobile} {
+    border: 0.234vw groove black;
+    gap: 2.673vw;
+    border-radius: 10px;
+    padding: 1.701vw 1.636vw;
+  }
+`
+const ClickableWrapper = styled.div`
+  position: relative;
+  display: flex;
+  margin: 0px auto;
+  max-width: max-content;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 2;
 `
 const Wrapper = styled.div`
   position: relative;
@@ -257,6 +394,8 @@ const Wrapper = styled.div`
   }
 
   ${media.mobile} {
-    padding:14.019vw 6.075vw;
+    padding: 14.019vw 6.075vw;
+    background-size: ${props => (props.$bgimg ? "93.925vw 93.925vw" : "unset")};
+    background-position: top right;
   }
 `
