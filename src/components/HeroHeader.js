@@ -8,49 +8,49 @@ import useMedia from "../utils/useMedia"
 import { gsap } from "gsap"
 const HeroHeader = () => {
   const [pageData, setPageData] = useState()
-  const [background, setBackground] = useState("")
+  const [currentFocus, setCurrentFocus] = useState(1)
   const options = { 1: "withVideo", 2: "simpleImg", 3: "withIcon" }
 
-  const handleMouseMove = event => {
-    const mouseX = event.clientX
-    const parentContainer = document.getElementById("bgBlackHero").parentNode
-    const background = document.getElementById("bgBlackHero")
-    const backgroundCenterX = background.offsetWidth / 2
-    const maxAllowedX = parentContainer.offsetWidth - background.offsetWidth
-    const constrainedX = Math.min(
-      Math.max(
-        backgroundCenterX,
-        mouseX - parentContainer.getBoundingClientRect().left
-      ),
-      maxAllowedX + backgroundCenterX
-    )
-    gsap.to("#bgBlackHero", { x: constrainedX - backgroundCenterX })
-  }
-
-  const handleMouseLeave = () => {
-    gsap.to("#bgBlackHero", { x: 50 })
-  }
+  
 
   const backgroundImg = useMedia(
     pageData?.videoOverlay?.desktop,
     pageData?.videoOverlay?.desktop,
     pageData?.videoOverlay?.tablet,
     pageData?.videoOverlay?.mobile
-  )
+  );
   const imageToUse = useMedia(
     pageData?.images?.desktop,
     pageData?.images?.desktop,
     pageData?.images?.tablet,
     pageData?.images?.mobile
+  );
+const handleMouseMove = event => {
+  const mouseX = event.clientX
+  const parentContainer = document.getElementById("bgBlackHero").parentNode
+  const background = document.getElementById("bgBlackHero")
+  const backgroundCenterX = background.offsetWidth / 2
+  const maxAllowedX = parentContainer.offsetWidth - background.offsetWidth
+  const constrainedX = Math.min(
+    Math.max(
+      backgroundCenterX,
+      mouseX - parentContainer.getBoundingClientRect().left
+    ),
+    maxAllowedX + backgroundCenterX
   )
+  gsap.to("#bgBlackHero", { x: constrainedX - backgroundCenterX })
+}
 
+const handleMouseLeave = () => {
+  gsap.to("#bgBlackHero", { x: 50 })
+}
   useEffect(() => {
     const tl = gsap.timeline()
     tl.to("#bgBlackHero", { x: 59 })
-    let dataIncoming = specifiedData(options[3])
+    let dataIncoming = specifiedData(options[currentFocus])
     setPageData(dataIncoming)
     console.log(pageData)
-  }, [pageData])
+  }, [pageData,currentFocus])
 
   return (
     pageData && (
@@ -91,9 +91,11 @@ const HeroHeader = () => {
           onMouseLeave={e => handleMouseLeave(e)}
         >
           <Controller>
-            <Button $active={""}>W/ Video</Button>
-            <Button>Background Image</Button>
-            <Button>With Icon</Button>
+            <Button $active={""} onClick={() => setCurrentFocus(1)}>
+              W/ Video
+            </Button>
+            <Button onClick={() => setCurrentFocus(2)}>Background Image</Button>
+            <Button onClick={() => setCurrentFocus(3)}>With Icon</Button>
           </Controller>
           <Background id={"bgBlackHero"} />
         </ClickableWrapper>
@@ -181,7 +183,7 @@ const ImageContainer = styled.div`
   }
 
   ${media.tablet} {
-    width: 60.254vw;
+    width: 70.25399999999999vw;
     height: 41.602vw;
   }
 
@@ -370,6 +372,12 @@ const ClickableWrapper = styled.div`
   align-items: center;
   box-sizing: border-box;
   z-index: 2;
+  ${media.tablet}{
+    margin-bottom:5vw;
+  }
+  ${media.mobile}{
+    margin-bottom:8.167vw;
+  }
 `
 const Wrapper = styled.div`
   position: relative;
@@ -378,7 +386,7 @@ const Wrapper = styled.div`
   justify-content: center;
   background-image: ${props =>
     props.$bgimg ? `url(${props.$bgimg})` : "unset"};
-  background-size: ${props => (props.$bgimg ? "54.748vw 54.919vw" : "unset")};
+  background-size: ${props => (props.$bgimg ? "50.906vw 100%" : "unset")};
   background-repeat: no-repeat;
   background-position: top right;
   padding: 6.944vw 10.278vw;
