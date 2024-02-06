@@ -11,13 +11,13 @@ import {
   GlobalLinkButton,
 } from "./buttons/Buttons"
 
-// ... (imports and styles)
+
 
 const AutoSlider = ({ scrollto }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [arrayValue, setArrayValue] = useState([])
   const viewboxRef = useRef(null)
-  let cardCount = 0 // Separate variable for counting cards
+  let cardCount = 0 
   let transCount = 0;
  const startTime = () =>
    setTimeout(() => {
