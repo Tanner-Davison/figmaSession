@@ -11,8 +11,6 @@ import {
   GlobalLinkButton,
 } from "./buttons/Buttons"
 
-// ... (imports and styles)
-
 const AutoSlider = ({ scrollto }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [arrayValue, setArrayValue] = useState([])
@@ -23,17 +21,10 @@ const AutoSlider = ({ scrollto }) => {
     autoSliderData.slice(8, 9),
   ]
 
-  // const startTimer = ()=>{
-  //   setTimeout(() => {
-  //     handleClickRight()
-  //   },6000)
-  // }
-
   useEffect(() => {
     setArrayValue(options[0])
     const currentTarget = document.querySelectorAll(`.box${currentIndex}`)
     gsap.set(currentTarget, { x: 0, duration: 0.7, delay: 1 })
-    // startTimer()
   }, [])
   const fetchNewData = async index => {
     setArrayValue(options[index])
@@ -44,22 +35,22 @@ const AutoSlider = ({ scrollto }) => {
     const currentElement = viewboxRef.current.querySelectorAll(
       `.box${currentIndex}`
     )
-    await gsap.fromTo(currentElement, { x: 0 }, { x: -1200, duration: .8, stagger: 0.1})
+    await gsap.fromTo(
+      currentElement,
+      { x: 0 },
+      { x: -1200, duration: 0.8, stagger: 0.1 }
+    )
     await fetchNewData(newIndex)
     const incomingElements = viewboxRef.current.querySelectorAll(
       `.box${newIndex}`
     )
-
-    // Use forEach to iterate over each incoming element
-   
-
-      return await incomingElements.forEach((item, index) => {
-        gsap.fromTo(
-          item,
-          { x: 1200 },
-          { x: 0, duration: 0.7, delay: index * 0.3 } // Adjust delay if needed
-        )
-      })
+    return await incomingElements.forEach((item, index) => {
+      gsap.fromTo(
+        item,
+        { x: 1200 },
+        { x: 0, duration: 0.7, delay: index * 0.3 }
+      )
+    })
 
     console.log(newIndex)
   }
