@@ -347,7 +347,7 @@ const Background = styled.div`
   align-self: center;
   right: 0;
   left: 0;
-  background-color: #191d1e;
+  background-color: ${colors.black};
   width: 18.889vw;
   height: 125%;
   padding: 15px 0px;

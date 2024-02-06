@@ -19,11 +19,25 @@ const AutoSlider = ({ scrollto }) => {
   const viewboxRef = useRef(null)
   let cardCount = 0 
   let transCount = 0;
- const startTime = () =>
-   setTimeout(() => {
-     handleClickRight()
-     console.log("Button clicked after 4 seconds")
-   }, 4000)
+ let width = 0
+
+
+ const handleWidth = setInterval(() => {
+   width += 5
+   const myElement = document.getElementById('growme')
+   myElement.style.width = width + "px"
+ }, 100)
+
+const startTime = ()=>setInterval(() => {
+  handleClickRight()
+
+}, 4000)
+
+ setTimeout(() => {
+   clearInterval(startTime)
+  clearInterval(handleWidth)
+ }, 3000)
+
   useEffect(() => {
     const target = document.getElementById(`#cardwrapper`)
     gsap.set(target, { xPercent: 0 })
@@ -74,16 +88,18 @@ const AutoSlider = ({ scrollto }) => {
       <Controls>
         <CarouselButtonLeft>Prev</CarouselButtonLeft>
         <StyledData></StyledData>
-        <CarouselButtonRight onClick={handleClickRight}>
+        <ButtonCustom id={'growme'} onClick={handleClickRight}>
           Next
-        </CarouselButtonRight>
+        </ButtonCustom>
       </Controls>
     </Wrapper>
   )
 }
 
 export default AutoSlider
-
+const ButtonCustom = styled.div`
+  height: 20px;
+`
 const StyledData = styled.p`
   ${text.bodyMBold};
   color: ${colors.black};
