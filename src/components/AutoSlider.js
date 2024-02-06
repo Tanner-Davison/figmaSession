@@ -55,6 +55,7 @@ const AutoSlider = ({ scrollto }) => {
   }
 
   const handleClickRight = async () => {
+
     const target = viewboxRef.current.querySelectorAll(`#cardwrapper`)
     if (transCount === -1) {
       transCount = 0
@@ -119,13 +120,13 @@ const AutoSlider = ({ scrollto }) => {
       <Controls>
         <StyledData></StyledData>
         <ButtonCustom>
-          <ButtonGrowth id={"growme"} $restart={restart} $width={width} />
+          <ButtonGrowth className={"growme1"} $restart={restart} $width={width} />
         </ButtonCustom>
         <ButtonCustom id={"growme"} $width={width2}>
-          <ButtonGrowth id={"growme"} $restart={restart} $width={width2} />
+          <ButtonGrowth className={"growme2"} $restart={restart} $width={width2} />
         </ButtonCustom>
         <ButtonCustom id={"growme"} $width={width3}>
-          <ButtonGrowth id={"growme"} $restart={restart} $width={width3} />
+          <ButtonGrowth className={"growme3"} $restart={restart} $width={width3} />
         </ButtonCustom>
       </Controls>
     </Wrapper>
