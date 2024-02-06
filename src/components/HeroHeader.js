@@ -11,8 +11,6 @@ const HeroHeader = () => {
   const [currentFocus, setCurrentFocus] = useState(1)
   const options = { 1: "withVideo", 2: "simpleImg", 3: "withIcon" }
 
-  
-
   const backgroundImg = useMedia(
     pageData?.videoOverlay?.desktop,
     pageData?.videoOverlay?.desktop,
@@ -395,10 +393,12 @@ const Wrapper = styled.div`
   z-index: 0;
   ${media.fullWidth} {
     padding: 100px 148px;
+    background-size: ${props => (props.$bgimg ? "733px 100%" : "unset")};
   }
 
   ${media.tablet} {
     padding: 3.906vw 5.859vw;
+    
   }
 
   ${media.mobile} {

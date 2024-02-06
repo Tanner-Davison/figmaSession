@@ -14,7 +14,7 @@ import Footer from "./GlobalComponents/Footer";
 import SideQuote from "./SideQuote";
 import PullQuote from "./PullQuote";
 import SimpleCentered from "./SimpleCentered";
-
+import AutoSlider from './AutoSlider';
 
 const Layout = ({ children }) => {
   // const data = useStaticQuery(graphql`
@@ -33,6 +33,7 @@ const Layout = ({ children }) => {
     <SideQuote/>
     <PullQuote/>
     <SimpleCentered/>
+    <AutoSlider/>
    <Footer/>
     </>
   )
