@@ -16,60 +16,42 @@ import {
 const AutoSlider = ({ scrollto }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [arrayValue, setArrayValue] = useState([])
-  const viewboxRef = useRef(0)
-  const options = [
-    autoSliderData.slice(0, 3),
-    autoSliderData.slice(3, 6),
-    autoSliderData.slice(8, 9),
-  ]
-
-  // const startTimer = ()=>{
-  //   setTimeout(() => {
-  //     handleClickRight()
-  //   },6000)
-  // }
-
+  const viewboxRef = useRef(null)
+  let cardCount = 0 // Separate variable for counting cards
+  let transCount = 0;
+ const startTime = () =>
+   setTimeout(() => {
+     handleClickRight()
+     console.log("Button clicked after 4 seconds")
+   }, 4000)
   useEffect(() => {
-    setArrayValue(options[0])
-    const currentTarget = document.querySelectorAll(`.box${currentIndex}`)
-    gsap.set(currentTarget, { x: 0, duration: 0.7, delay: 1 })
-    // startTimer()
+    const target = document.getElementById(`#cardwrapper`)
+    gsap.set(target, { xPercent: 0 })
+     startTime()
   }, [])
-  const fetchNewData = async index => {
-    setArrayValue(options[index])
-  }
+
   const handleClickRight = async () => {
-    const newIndex = currentIndex === options.length - 1 ? 0 : currentIndex + 1
-    setCurrentIndex(newIndex)
-    const currentElement = viewboxRef.current.querySelectorAll(
-      `.box${currentIndex}`
-    )
-    await gsap.fromTo(currentElement, { x: 0 }, { x: -1200, duration: .8, stagger: 0.1})
-    await fetchNewData(newIndex)
-    const incomingElements = viewboxRef.current.querySelectorAll(
-      `.box${newIndex}`
-    )
-
-    // Use forEach to iterate over each incoming element
-   
-
-      return await incomingElements.forEach((item, index) => {
-        gsap.fromTo(
-          item,
-          { x: 1200 },
-          { x: 0, duration: 0.7, delay: index * 0.3 } // Adjust delay if needed
-        )
-      })
-
-    console.log(newIndex)
+    const target = viewboxRef.current.querySelectorAll(`#cardwrapper`)
+    if(transCount === 0){
+      await gsap.to(target, { xPercent: -335, duration: 0.9 })
+     transCount++
+    }else if(transCount===1){
+      await gsap.fromTo(target, { xPercent: -335 },{xPercent:-670, duration:0.8 })
+     transCount++
+    }else if(transCount ===2){
+      const newTarget = viewboxRef.current.querySelectorAll(`box1`)
+       await gsap.fromTo(target, { xPercent: -670 }, { xPercent: 0, duration: 1 ,ease:'slow' })
+      transCount = 0;
+    }
+    return startTime();
   }
 
   const runCards = (imgObj, index) => {
     return (
       <Card
-        id={`box${currentIndex}`}
+        id={`box${cardCount++}`} // Use cardCount instead of index++
         key={index}
-        className={`box${currentIndex}`}
+        className={`boxcard`}
       >
         <Image $srcurl={imgObj.img} alt={imgObj.img} />
         <CardTextContentDiv>
@@ -83,7 +65,11 @@ const AutoSlider = ({ scrollto }) => {
   return (
     <Wrapper>
       <BoxContainer>
-        <ViewBox ref={viewboxRef}>{arrayValue.map(runCards)}</ViewBox>
+        <ViewBox ref={viewboxRef}>
+          <CardRelativeWrapper id={"cardwrapper"}>
+            {autoSliderData.map(runCards)}
+          </CardRelativeWrapper>
+        </ViewBox>
       </BoxContainer>
       <Controls>
         <CarouselButtonLeft>Prev</CarouselButtonLeft>
@@ -138,9 +124,17 @@ const Card = styled.div`
     rgba(118, 88, 205, 0.1) 101.67%
   );
   border-radius: 1.667vw;
-  height: 29.653vw;
+  min-height: 29.653vw;
+  min-width: 24.583vw;
   width: 24.583vw;
   padding: 24px 24px 54px 20px;
+`
+const CardRelativeWrapper = styled.div`
+  position: relative;
+  display: flex;
+  height: 29.653vw;
+  width: 24.583vw;
+  gap: 2.847vw;
 `
 ////////////////////////////
 
@@ -149,13 +143,11 @@ const ViewBox = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: left;
   overflow: hidden;
-  max-height: 29.653vw;
+  height: 29.653vw;
   width: 79.444vw;
   border-radius: 1.667vw;
-  gap: 2.847vw;
 `
 ///////////////////////////////////////////
 const Slider = styled.div`
