@@ -1,4 +1,9 @@
 {
   "arrowParens": "avoid",
-  "semi": false
+  "semi": false,
+  "bracketSameLine": true,
+  "endOfLine": "crlf",
+  "bracketSpacing": false
+
+  
 }

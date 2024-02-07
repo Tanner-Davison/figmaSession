@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, {useEffect, useRef, useState} from "react"
 import styled from "styled-components"
-import { autoSliderData } from "../components/content/AutoSliderData"
+import {autoSliderData} from "../components/content/AutoSliderData"
 import colors from "../styles/colors"
 import media from "../styles/media"
-import { gsap } from "gsap"
+import {gsap} from "gsap"
 import text from "../styles/text"
 import {
   CarouselButtonLeft,
@@ -11,7 +11,7 @@ import {
   GlobalLinkButton,
 } from "./buttons/Buttons"
 
-const AutoSlider = ({ scrollto }) => {
+const AutoSlider = ({scrollto}) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [arrayValue, setArrayValue] = useState([])
   const [restart, setRestart] = useState(false)
@@ -22,74 +22,53 @@ const AutoSlider = ({ scrollto }) => {
   let cardCount = 0
   let transCount = 0
 
-  const clearStates = async () => {
-    setWidth(100 + "%")
-    setWidth2(0 + "%")
-    setWidth3(0 + "%")
-    return
-  }
-  const returnBeginning = () => {
-    setRestart(false)
-    setWidth(100 + "%")
-    handleClickRight()
-  }
-  const startTime = async () => {
-    setTimeout(() => {
-      if (transCount === -1) {
-        return returnBeginning()
+  const startGsap = duration => {
+    const tl = gsap.timeline({
+      paused: false,
+      immediateRender:true,
+      repeat:true,
+    })
+    const boxTl = tl.fromTo(
+      `.growme`,
+      {
+        width: 0,
+        
+      },
+      {
+        width: 100,
+        stagger:5,
+        duration:4.5,
+        onComplete: () => {
+          boxTl.repeatDelay(.5)
+        },
       }
-      if (transCount === 0) { // first Transition
-        setWidth2(100 + "%")
-        handleClickRight()
+    )
+  }
 
-      } else if (transCount === 1) { // second transition
-        setWidth3(100 + "%")
-        handleClickRight()
-      }
-      if (transCount === 2) { // third transition back to start 
-        setWidth(0+'%')
-        handleClickRight()
-      }
-      console.log(transCount)
+  const startTime = () => {
+    setTimeout(() => {
+      handleClickRight()
     }, 4000)
   }
-
   const handleClickRight = async () => {
-
     const target = viewboxRef.current.querySelectorAll(`#cardwrapper`)
-    if (transCount === -1) {
-      transCount = 0
-      return startTime()
-    }
     if (transCount === 0) {
-      await gsap.to(target, { xPercent: -335, duration: 0.9 })
-      transCount++
+      await gsap.to(target, {xPercent: -335, duration: 1, ease:'back.inOut'})
     } else if (transCount === 1) {
-      await gsap.fromTo(
-        target,
-        { xPercent: -335 },
-        { xPercent: -670, duration: 0.9 }
-      )
-      transCount++
-
+      await gsap.to(target, {xPercent: -670, duration: 1 , ease: 'back.inOut'})
     } else if (transCount === 2) {
-      const newTarget = viewboxRef.current.querySelectorAll(`box1`)
-      setRestart(true)
-      clearStates()
-      transCount = -1
-      await gsap.fromTo(
-        target,
-        { xPercent: -670 },
-        { xPercent: 0, duration: 0.9 }
-      )}
+      await gsap.to(target, {xPercent: 0, duration: 1, ease: "back.inOut"})
+    }
+    transCount = (transCount + 1) % 3
     return startTime()
   }
 
   useEffect(() => {
     const target = document.getElementById(`#cardwrapper`)
-    gsap.set(target, { xPercent: 0 })
-    startTime()
-    setWidth(100 + "%")
+    gsap.set(target, {xPercent: 0})
+    const duration = 4000
+    startGsap(duration)
+    startTime(duration)
   }, [])
 
   const runCards = (imgObj, index) => {
@@ -97,8 +76,7 @@ const AutoSlider = ({ scrollto }) => {
       <Card
         id={`box${cardCount++}`} // Use cardCount instead of index++
         key={index}
-        className={`boxcard`}
-      >
+        className={`boxcard`}>
         <Image $srcurl={imgObj.img} alt={imgObj.img} />
         <CardTextContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
@@ -118,15 +96,22 @@ const AutoSlider = ({ scrollto }) => {
         </ViewBox>
       </BoxContainer>
       <Controls>
-        <StyledData></StyledData>
         <ButtonCustom>
-          <ButtonGrowth className={"growme1"} $restart={restart} $width={width} />
+          <ButtonGrowth
+            className={"growme"}
+            $restart={restart}
+            $width={width}
+          />
         </ButtonCustom>
-        <ButtonCustom id={"growme"} $width={width2}>
-          <ButtonGrowth className={"growme2"} $restart={restart} $width={width2} />
+        <ButtonCustom $width={width2}>
+          <ButtonGrowth
+            className={"growme"}
+            $restart={restart}
+            $width={width2}
+          />
         </ButtonCustom>
-        <ButtonCustom id={"growme"} $width={width3}>
-          <ButtonGrowth className={"growme3"} $restart={restart} $width={width3} />
+        <ButtonCustom $width={width3}>
+          <ButtonGrowth className={`growme`} />
         </ButtonCustom>
       </Controls>
     </Wrapper>
@@ -139,8 +124,6 @@ const ButtonGrowth = styled.div`
   display: flex;
   border-radius: 10px;
   height: 100%;
-  width: ${props => (props.$width ? `${props.$width}` : `unset`)};
-  transition: ${props => (props.$restart ? "unset" : `width 4s ease-in`)};
   background-color: white;
 `
 const ButtonCustom = styled.div`
@@ -148,21 +131,19 @@ const ButtonCustom = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  background-color: rgba(0,0,0,1.5);
   border-radius: 10px;
-  height: 10px;
-  width: 100px;
-  border: 2px solid red;
+  height: 0.417vw;
+  width: 4.306vw;
 `
 const Controls = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  border: 1px groove white;
   background-color: ${colors.grey};
   transition: box-shadow 0.3s ease-in-out;
-  margin-top: 1.736vw;
-  padding: 10px;
+  margin-top: 2.778vw;
   gap: 1.389vw;
   border-radius: 1vw;
 
@@ -172,8 +153,7 @@ const Controls = styled.div`
   }
 `
 const StyledData = styled.p`
-  ${text.bodyMBold};
-  color: ${colors.black};
+ 
 `
 const ContentBody = styled.p`
   ${text.bodyM}
