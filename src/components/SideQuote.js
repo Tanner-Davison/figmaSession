@@ -87,9 +87,7 @@ const RightDiv = styled.div`
   justify-content: space-between;
   transition: transform 0.3s ease-in-out;
   gap: 1.667vw;
-  &:hover {
-    transform: scale(1.1);
-  }
+
 
   width: 39.167vw;
 
@@ -167,9 +165,7 @@ const LeftDiv = styled.div`
   border-radius: 1.667vw;
   padding: 2.778vw 2.222vw;
   transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
+ 
   ${media.fullWidth} {
     width: 448px;
     border-radius: 24px;
