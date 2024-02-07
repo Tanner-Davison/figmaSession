@@ -29,6 +29,7 @@ const AutoSlider = ({scrollto}) => {
     const tl = gsap.timeline({
       paused: false,
     })
+    
     tl.from(['.growme.num1','.growme.num2','growme.numb3'], {width:0})
     tl.to(".growme.num1", {width: 100, duration: `${loadSpeed}`})
     tl.to(targetDiv, {xPercent: -335, duration: `${slideSpeed}`, ease: "back.inOut"},'-=3.5')
@@ -37,40 +38,28 @@ const AutoSlider = ({scrollto}) => {
     tl.to(".growme.num3", {width: 100, duration: `${loadSpeed}`})
     tl.to(targetDiv, {xPercent: 0, duration:`${slideSpeed}`, ease: "back.inOut"}, "-=3.5")
     tl.repeat(-1);
+    let boxself = document.querySelectorAll('.boxself')
+    boxself.forEach(item=> item.addEventListener('click',()=>{
+        tl.pause();
+    }))
+    let play = document.querySelectorAll('.growme')
+    play.forEach(item=> item.addEventListener('click',()=>{
+      return tl.play();
+    }));
+
   }
-
-  // const startTime = () => {
-  //   setTimeout(() => {
-  //     handleClickRight()
-  //   }, 4000)
-  // }
-  // const handleClickRight = async () => {
-    
-  //   if (transCount === 0) {
-  //     await gsap.to(target, {xPercent: -335, duration: 1, ease:'back.inOut'})
-  //   } else if (transCount === 1) {
-  //     await gsap.to(target, {xPercent: -670, duration: 1 , ease: 'back.inOut'})
-  //   } else if (transCount === 2) {
-  //     await gsap.to(target, {xPercent: 0, duration: 1, ease: "back.inOut"})
-  //   }
-  //   transCount = (transCount + 1) % 3
-  //   // return startTime()
-  // }
-
   useEffect(() => {
     const target = document.getElementById(`#cardwrapper`)
     gsap.set(target, {xPercent: 0})
     startGsap()
-    // const duration = 4000
-    // startTime(duration)
+
   }, [])
 
   const runCards = (imgObj, index) => {
     return (
       <Card
-        id={`box${cardCount++}`} // Use cardCount instead of index++
-        key={index}
-        className={`boxcard`}>
+        className={`boxself`} 
+        key={index}>
         <Image className={'logoImg'} $srcurl={imgObj.img} alt={imgObj.img} />
         <CardTextContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
@@ -93,8 +82,6 @@ const AutoSlider = ({scrollto}) => {
         <ButtonCustom>
           <ButtonGrowth
             className={"growme num1"}
-            $restart={restart}
-            $width={width}
           />
         </ButtonCustom>
         <ButtonCustom $width={width2}>
@@ -136,7 +123,6 @@ const Controls = styled.div`
   justify-content: center;
   box-sizing: border-box;
   background-color: ${colors.grey};
-  transition: box-shadow 0.3s ease-in-out;
   margin-top: 2.778vw;
   gap: 1.389vw;
   border-radius: 1vw;
@@ -145,9 +131,6 @@ const Controls = styled.div`
     gap: 1.402vw;
     border-radius: 3.505vw;
   }
-`
-const StyledData = styled.p`
- 
 `
 const ContentBody = styled.p`
   ${text.bodyM}
@@ -242,3 +225,4 @@ const Wrapper = styled.div`
     padding: 14.019vw 0vw;
   }
 `
+
