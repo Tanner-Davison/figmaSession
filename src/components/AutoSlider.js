@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, {useEffect, useRef, useState} from "react"
 import styled from "styled-components"
-import { autoSliderData } from "../components/content/AutoSliderData"
+import {autoSliderData} from "../components/content/AutoSliderData"
 import colors from "../styles/colors"
 import media from "../styles/media"
-import { gsap } from "gsap"
+import {gsap} from "gsap"
 import text from "../styles/text"
 import {
   CarouselButtonLeft,
@@ -11,57 +11,72 @@ import {
   GlobalLinkButton,
 } from "./buttons/Buttons"
 
-const AutoSlider = ({ scrollto }) => {
+const AutoSlider = ({scrollto}) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [arrayValue, setArrayValue] = useState([])
-  const viewboxRef = useRef(0)
-  const options = [
-    autoSliderData.slice(0, 3),
-    autoSliderData.slice(3, 6),
-    autoSliderData.slice(8, 9),
-  ]
+  const [restart, setRestart] = useState(false)
+  const [width, setWidth] = useState(0 + "%")
+  const [width2, setWidth2] = useState(0 + "%")
+  const [width3, setWidth3] = useState(0 + "%")
+  const viewboxRef = useRef(null)
+  let cardCount = 0
+  let transCount = 0
 
-  useEffect(() => {
-    setArrayValue(options[0])
-    const currentTarget = document.querySelectorAll(`.box${currentIndex}`)
-    gsap.set(currentTarget, { x: 0, duration: 0.7, delay: 1 })
-  }, [])
-  const fetchNewData = async index => {
-    setArrayValue(options[index])
+  const startGsap = duration => {
+    const tl = gsap.timeline({
+      paused: false,
+      immediateRender:true,
+      repeat:true,
+    })
+    const boxTl = tl.fromTo(
+      `.growme`,
+      {
+        width: 0,
+      },
+      {
+        width: 100,
+        stagger:5,
+        duration:4.5,
+        ease:'back.in',
+        onComplete: () => {
+          boxTl.repeatDelay(.5)
+        },
+      }
+    )
+  }
+
+  const startTime = () => {
+    setTimeout(() => {
+      handleClickRight()
+    }, 4000)
   }
   const handleClickRight = async () => {
-    const newIndex = currentIndex === options.length - 1 ? 0 : currentIndex + 1
-    setCurrentIndex(newIndex)
-    const currentElement = viewboxRef.current.querySelectorAll(
-      `.box${currentIndex}`
-    )
-    await gsap.fromTo(
-      currentElement,
-      { x: 0 },
-      { x: -1200, duration: 0.8, stagger: 0.1 }
-    )
-    await fetchNewData(newIndex)
-    const incomingElements = viewboxRef.current.querySelectorAll(
-      `.box${newIndex}`
-    )
-    return await incomingElements.forEach((item, index) => {
-      gsap.fromTo(
-        item,
-        { x: 1200 },
-        { x: 0, duration: 0.7, delay: index * 0.3 }
-      )
-    })
-
-    console.log(newIndex)
+    const target = viewboxRef.current.querySelectorAll(`#cardwrapper`)
+    if (transCount === 0) {
+      await gsap.to(target, {xPercent: -335, duration: 1, ease:'back.inOut'})
+    } else if (transCount === 1) {
+      await gsap.to(target, {xPercent: -670, duration: 1 , ease: 'back.inOut'})
+    } else if (transCount === 2) {
+      await gsap.to(target, {xPercent: 0, duration: 1, ease: "back.inOut"})
+    }
+    transCount = (transCount + 1) % 3
+    return startTime()
   }
+
+  useEffect(() => {
+    const target = document.getElementById(`#cardwrapper`)
+    gsap.set(target, {xPercent: 0})
+    const duration = 4000
+    startGsap(duration)
+    startTime(duration)
+  }, [])
 
   const runCards = (imgObj, index) => {
     return (
       <Card
-        id={`box${currentIndex}`}
+        id={`box${cardCount++}`} // Use cardCount instead of index++
         key={index}
-        className={`box${currentIndex}`}
-      >
+        className={`boxcard`}>
         <Image $srcurl={imgObj.img} alt={imgObj.img} />
         <CardTextContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
@@ -74,24 +89,71 @@ const AutoSlider = ({ scrollto }) => {
   return (
     <Wrapper>
       <BoxContainer>
-        <ViewBox ref={viewboxRef}>{arrayValue.map(runCards)}</ViewBox>
+        <ViewBox ref={viewboxRef}>
+          <CardRelativeWrapper id={"cardwrapper"}>
+            {autoSliderData.map(runCards)}
+          </CardRelativeWrapper>
+        </ViewBox>
       </BoxContainer>
       <Controls>
-        <CarouselButtonLeft>Prev</CarouselButtonLeft>
-        <StyledData></StyledData>
-        <CarouselButtonRight onClick={handleClickRight}>
-          Next
-        </CarouselButtonRight>
+        <ButtonCustom>
+          <ButtonGrowth
+            className={"growme"}
+            $restart={restart}
+            $width={width}
+          />
+        </ButtonCustom>
+        <ButtonCustom $width={width2}>
+          <ButtonGrowth
+            className={"growme"}
+            $restart={restart}
+            $width={width2}
+          />
+        </ButtonCustom>
+        <ButtonCustom $width={width3}>
+          <ButtonGrowth className={`growme`} />
+        </ButtonCustom>
       </Controls>
     </Wrapper>
   )
 }
 
 export default AutoSlider
+const ButtonGrowth = styled.div`
+  position: relative;
+  display: flex;
+  border-radius: 10px;
+  height: 100%;
+  background-color: white;
+`
+const ButtonCustom = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  background-color: rgba(0,0,0,1.5);
+  border-radius: 10px;
+  height: 0.417vw;
+  width: 4.306vw;
+`
+const Controls = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: ${colors.grey};
+  transition: box-shadow 0.3s ease-in-out;
+  margin-top: 2.778vw;
+  gap: 1.389vw;
+  border-radius: 1vw;
 
+  ${media.mobile} {
+    gap: 1.402vw;
+    border-radius: 3.505vw;
+  }
+`
 const StyledData = styled.p`
-  ${text.bodyMBold};
-  color: ${colors.black};
+ 
 `
 const ContentBody = styled.p`
   ${text.bodyM}
@@ -129,9 +191,17 @@ const Card = styled.div`
     rgba(118, 88, 205, 0.1) 101.67%
   );
   border-radius: 1.667vw;
-  height: 29.653vw;
+  min-height: 29.653vw;
+  min-width: 24.583vw;
   width: 24.583vw;
   padding: 24px 24px 54px 20px;
+`
+const CardRelativeWrapper = styled.div`
+  position: relative;
+  display: flex;
+  height: 29.653vw;
+  width: 24.583vw;
+  gap: 2.847vw;
 `
 ////////////////////////////
 
@@ -140,45 +210,17 @@ const ViewBox = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: left;
   overflow: hidden;
-  max-height: 29.653vw;
+  height: 29.653vw;
   width: 79.444vw;
   border-radius: 1.667vw;
-  gap: 2.847vw;
 `
 ///////////////////////////////////////////
 const Slider = styled.div`
   display: flex;
 `
 
-const Controls = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border: 1px groove white;
-  background-color: ${colors.grey};
-  transition: box-shadow 0.3s ease-in-out;
-  box-shadow: 0px 4px 19px ${colors.grey200};
-  gap: 1.389vw;
-  border-radius: 1.389vw;
-  &:hover {
-    border: 1px groove whitesmoke;
-    box-shadow: 0px 4px 19px ${colors.grey200};
-  }
-  ${media.fullWidth} {
-  }
-
-  ${media.tablet} {
-  }
-
-  ${media.mobile} {
-    gap: 1.402vw;
-    border-radius: 3.505vw;
-  }
-`
 const BoxContainer = styled.div`
   display: flex;
   align-items: center;

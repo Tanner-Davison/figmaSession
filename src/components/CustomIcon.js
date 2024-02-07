@@ -1,6 +1,4 @@
-
-
-import React from 'react';
+import React from "react"
 
 const CustomIcon = ({ fill }) => (
   <svg
@@ -24,4 +22,4 @@ const CustomIcon = ({ fill }) => (
   </svg>
 )
 
-export default CustomIcon;
+export default CustomIcon
