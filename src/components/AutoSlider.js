@@ -22,53 +22,47 @@ const AutoSlider = ({scrollto}) => {
   let cardCount = 0
   let transCount = 0
 
-  const startGsap = duration => {
+  const startGsap = () => {
+    let loadSpeed = 6
+    let slideSpeed = 2
+    const targetDiv = viewboxRef.current.querySelectorAll(`.cardwrapper`)
     const tl = gsap.timeline({
       paused: false,
-      immediateRender:true,
-      repeat:true,
     })
-    const boxTl = tl.fromTo(
-      `.growme`,
-      {
-        width: 0,
-      },
-      {
-        width: 100,
-        stagger:5,
-        duration:4.5,
-        ease:'back.in',
-        onComplete: () => {
-          boxTl.repeatDelay(.5)
-        },
-      }
-    )
+    tl.from(['.growme.num1','.growme.num2','growme.numb3'], {width:0})
+    tl.to(".growme.num1", {width: 100, duration: `${loadSpeed}`})
+    tl.to(targetDiv, {xPercent: -335, duration: `${slideSpeed}`, ease: "back.inOut"},'-=3.5')
+     tl.to(".growme.num2", {width: 100, duration: `${loadSpeed}`})
+    tl.to(targetDiv, {xPercent: -670, duration: `${slideSpeed}`, ease: "back.inOut"}, "-=3.5")
+    tl.to(".growme.num3", {width: 100, duration: `${loadSpeed}`})
+    tl.to(targetDiv, {xPercent: 0, duration:`${slideSpeed}`, ease: "back.inOut"}, "-=3.5")
+    tl.repeat(-1);
   }
 
-  const startTime = () => {
-    setTimeout(() => {
-      handleClickRight()
-    }, 4000)
-  }
-  const handleClickRight = async () => {
-    const target = viewboxRef.current.querySelectorAll(`#cardwrapper`)
-    if (transCount === 0) {
-      await gsap.to(target, {xPercent: -335, duration: 1, ease:'back.inOut'})
-    } else if (transCount === 1) {
-      await gsap.to(target, {xPercent: -670, duration: 1 , ease: 'back.inOut'})
-    } else if (transCount === 2) {
-      await gsap.to(target, {xPercent: 0, duration: 1, ease: "back.inOut"})
-    }
-    transCount = (transCount + 1) % 3
-    return startTime()
-  }
+  // const startTime = () => {
+  //   setTimeout(() => {
+  //     handleClickRight()
+  //   }, 4000)
+  // }
+  // const handleClickRight = async () => {
+    
+  //   if (transCount === 0) {
+  //     await gsap.to(target, {xPercent: -335, duration: 1, ease:'back.inOut'})
+  //   } else if (transCount === 1) {
+  //     await gsap.to(target, {xPercent: -670, duration: 1 , ease: 'back.inOut'})
+  //   } else if (transCount === 2) {
+  //     await gsap.to(target, {xPercent: 0, duration: 1, ease: "back.inOut"})
+  //   }
+  //   transCount = (transCount + 1) % 3
+  //   // return startTime()
+  // }
 
   useEffect(() => {
     const target = document.getElementById(`#cardwrapper`)
     gsap.set(target, {xPercent: 0})
-    const duration = 4000
-    startGsap(duration)
-    startTime(duration)
+    startGsap()
+    // const duration = 4000
+    // startTime(duration)
   }, [])
 
   const runCards = (imgObj, index) => {
@@ -77,7 +71,7 @@ const AutoSlider = ({scrollto}) => {
         id={`box${cardCount++}`} // Use cardCount instead of index++
         key={index}
         className={`boxcard`}>
-        <Image $srcurl={imgObj.img} alt={imgObj.img} />
+        <Image className={'logoImg'} $srcurl={imgObj.img} alt={imgObj.img} />
         <CardTextContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
           <ContentBody>{imgObj.Body}</ContentBody>
@@ -90,7 +84,7 @@ const AutoSlider = ({scrollto}) => {
     <Wrapper>
       <BoxContainer>
         <ViewBox ref={viewboxRef}>
-          <CardRelativeWrapper id={"cardwrapper"}>
+          <CardRelativeWrapper className={"cardwrapper"}>
             {autoSliderData.map(runCards)}
           </CardRelativeWrapper>
         </ViewBox>
@@ -98,20 +92,20 @@ const AutoSlider = ({scrollto}) => {
       <Controls>
         <ButtonCustom>
           <ButtonGrowth
-            className={"growme"}
+            className={"growme num1"}
             $restart={restart}
             $width={width}
           />
         </ButtonCustom>
         <ButtonCustom $width={width2}>
           <ButtonGrowth
-            className={"growme"}
+            className={"growme num2"}
             $restart={restart}
             $width={width2}
           />
         </ButtonCustom>
         <ButtonCustom $width={width3}>
-          <ButtonGrowth className={`growme`} />
+          <ButtonGrowth className={`growme num3`} />
         </ButtonCustom>
       </Controls>
     </Wrapper>
