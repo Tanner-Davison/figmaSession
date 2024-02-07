@@ -8,13 +8,7 @@
 import * as React from "react"
 // import { useStaticQuery, graphql } from "gatsby"
 
-import HeroHeader from "./HeroHeader"
-import "./layout.css";
-import Footer from "./GlobalComponents/Footer";
-import SideQuote from "./SideQuote";
-import PullQuote from "./PullQuote";
-import SimpleCentered from "./SimpleCentered";
-import AutoSlider from './AutoSlider';
+
 
 const Layout = ({ children }) => {
   // const data = useStaticQuery(graphql`
@@ -29,12 +23,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-    <HeroHeader/>
-    <SideQuote/>
-    <PullQuote/>
-    <SimpleCentered/>
-    <AutoSlider/>
-   <Footer/>
+
     </>
   )
 }
