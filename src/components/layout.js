@@ -7,6 +7,8 @@
 
 import * as React from "react"
 // import { useStaticQuery, graphql } from "gatsby"
+import IphoneCTA from "./IphoneCTA" ;
+
 
 
 
@@ -23,7 +25,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-
+  <IphoneCTA />
     </>
   )
 }

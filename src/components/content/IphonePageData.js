@@ -6,6 +6,7 @@ import VectorBGimage from '../../images/VectorBGimage.webp';
 
 export const pageData = [
   {
+    id:0,
     mainContent: {
       eyebrow: "eyebrow",
       headline: "Lorem Ipsum Delor",
@@ -14,6 +15,7 @@ export const pageData = [
     },
   },
   {
+    id:1,
     images:{
       backgroundImg: DesktopBackground,
       iphoneAsset: IphoneAsset,
@@ -22,9 +24,10 @@ export const pageData = [
     }
   },
   {
+    id:2,
     iphoneData: {
-      iphoneHeadline: "Lorem Ipsum.",
-      iphoneBody:
+      headline: "Lorem Ipsum.",
+      body:
         "Lorem ipsum dolor sit amet consectetur. Massa odio at nam sodales suspendisse viverra eget in tellus. Vulputate et imperdiet auctor duis netus auctor. Donec arcu id cum viverra et velit lorem ullamcorper mi. Mi amet placerat morbi nulla penatibus.",
     },
   },
