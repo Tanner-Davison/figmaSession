@@ -27,8 +27,8 @@ const IphoneCTA = () => {
         const onStart = gsap.timeline({paused: false})
         onStart.to(Iphone, {yPercent: 0, rotate: 360,duration:2})
         onStart.to(IphoneBg, {scale:1,opacity:1, duration: 1, ease: 'smooth'},'-=1.3')
-        onStart.to(FirstWord,{xPercent:0,duration:1.3, ease: 'smooth'},'-=1')
-        onStart.to(SecondWord,{xPercent:0,duration:1.3, ease: 'smooth'},'<')
+        onStart.to(FirstWord,{xPercent:0,duration:1.3, ease: 'back.out'},'-=1.5')
+        onStart.to(SecondWord,{xPercent:0,duration:1.3, ease: 'back.out'},'<')
         onStart.to(IphoneBody, {xPercent:0, duration:1.3},'<')
     },[])
   const newHeadline = iHeadline.map((word, index) => {
@@ -109,6 +109,7 @@ position: relative;
   justify-content: center;
   backdrop-filter: blur(8px);
   overflow: hidden;
+  gap:0.694vw;
   width: 100%;
   z-index: 100;
 `
