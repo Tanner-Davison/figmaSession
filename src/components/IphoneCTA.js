@@ -1,54 +1,101 @@
-import React , {useEffect}from "react"
+import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import media from "../styles/media"
 import colors from "../styles/colors"
 import text from "../styles/text"
 import {pageData} from "./content/IphonePageData"
-import { gsap } from "gsap"
+import {gsap} from "gsap"
+import {GSDevTools} from "gsap/GSDevTools"
 
 const IphoneCTA = () => {
+  gsap.registerPlugin(GSDevTools)
+  const [phoneFlipped, setPhoneFlipped] = useState(false)
+  const useHeadlineIfFlipped = ["User", "Login"]
   const textData = pageData[0].mainContent
   const images = pageData[1].images
   const {iphoneData} = pageData[2]
   const iHeadline = iphoneData.headline.split(" ")
-    useEffect(()=>{
-        const IphoneBody = document.querySelectorAll('.iphoneBody')
-        const IphoneHeader = document.querySelectorAll('.iphoneHeader')
-        const IphoneBg =document.querySelectorAll('.iphoneBackground')
-        const Iphone = document.querySelectorAll('.iphoneAsset');
-        const FirstWord = document.getElementsByClassName('firstWord')
-        const SecondWord = document.getElementsByClassName('secondWord')
-        const breakMe = document.querySelectorAll('.breakMe');
-        gsap.set(Iphone, {yPercent: 300, rotate: 180})
-        gsap.set(IphoneBg, {scale: -1,opacity:0})
-        gsap.set(IphoneBody, {xPercent:300})
-        gsap.set(FirstWord,{xPercent:-200})
-        gsap.set(SecondWord, {xPercent: 200})
-        const onStart = gsap.timeline({paused: false})
-        onStart.to(Iphone, {yPercent: 0, rotate: 360,duration:2})
-        onStart.to(IphoneBg, {scale:1,opacity:1, duration: 1, ease: 'smooth'},'-=1.3')
-        onStart.to(FirstWord,{xPercent:0,duration:1.3, ease: 'back.out'},'-=1.5')
-        onStart.to(SecondWord,{xPercent:0,duration:1.3, ease: 'back.out'},'<')
-        onStart.to(IphoneBody, {xPercent:0, duration:1.3},'<')
-    },[])
-  const newHeadline = iHeadline.map((word, index) => {
-    return (
-      <IphoneHeader
-      className={index=== 0? "firstWord": "secondWord"}
-        style={{
-          color: index === 0 ? "white" : `${colors.primaryOrange}`}}>
+  const handleIphoneClick = () => {
+    setPhoneFlipped(true)
+    const Iphone = document.querySelectorAll(".iphoneAsset")
+    const MainContent = document.querySelectorAll(".iphoneBackground")
+    const Header = document.querySelectorAll(".iphoneHeader")
+    const PhoneBody = document.querySelectorAll(".iphoneBody")
+
+    const flipTl = gsap.timeline()
+    flipTl.set(MainContent, {
+      backgroundImage: `url(${images.flipImg})`,
+      backgroundSize: "100%",
+      backgroundPosition: "center",
+    })
+    flipTl.to(Iphone, {rotation: 90, xPercent: -85, scale: 1.5, duration: 1.5})
+    flipTl.to([PhoneBody], {yPercent: 400, duration: 2}, "<")
+    flipTl.to([Header],{yPercent: 350, xPercent: -35, rotation: -90, duration: 1},"<")
+    return
+    }
+    const handleBack =()=>{
+       
+         const Iphone = document.querySelectorAll(".iphoneAsset")
+         const MainContent = document.querySelectorAll(".iphoneBackground")
+         const Header = document.querySelectorAll(".iphoneHeader")
+         const PhoneBody = document.querySelectorAll(".iphoneBody")
+
+         const flipBack = gsap.timeline()
+         flipBack.set(MainContent, {
+           backgroundImage: `url(${images.backgroundImg})`,
+           backgroundSize: "contain",
+           backgroundPosition: "center",
+         })
+         flipBack.to(Iphone, {
+           rotation: 0,
+           xPercent: 0,
+           scale: 1,
+           duration: 1.5,
+         })
+         flipBack.to([PhoneBody], {yPercent: 0, duration: 2}, "<")
+         flipBack.to(
+           [Header],
+           {yPercent: 0, xPercent: 0, rotation: 0, duration: 1},
+           "<"
+         )
+    }
+  useEffect(() => {
+    const IphoneBody = document.querySelectorAll(".iphoneBody")
+    const IphoneHeader = document.querySelectorAll(".iphoneHeader")
+    const IphoneBg = document.querySelectorAll(".iphoneBackground")
+    const Iphone = document.querySelectorAll(".iphoneAsset")
+    const FirstWord = document.getElementsByClassName("firstWord")
+    const SecondWord = document.getElementsByClassName("secondWord")
+    gsap.set(Iphone, {yPercent: 400, rotate: 180})
+    gsap.set(IphoneBg, {scale: -1, opacity: 0})
+    gsap.set(IphoneBody, {yPercent: 300})
+    gsap.set(FirstWord, {xPercent: -200})
+    gsap.set(SecondWord, {xPercent: 200})
+    const onStart = gsap.timeline({paused: false})
+    onStart.to(Iphone, {yPercent: 0, rotate: 360, duration: 2})
+    onStart.to(IphoneBg,{scale: 1, opacity: 1, duration: 1, ease: "smooth"},"-=1.3")
+    onStart.to(FirstWord, {xPercent: 0, duration: 1.3, ease: "back.out"}, "-=1")
+    onStart.to(SecondWord, {xPercent: 0, duration: 1.3, ease: "back.out"}, "<")
+    onStart.to(IphoneBody, {yPercent: 0, duration: 1.3}, "<")
+  }, [])
+  const flippedHeadline = useHeadlineIfFlipped.map((word, index) => 
+      <IphoneHeader key={index} className={index === 0 ? "firstWordFlipped" : "secondWordFlipped"}
+        style={{ color: index === 0 ? "white" : `${colors.primaryOrange}`}}>
         {word}
       </IphoneHeader>
-    )
-  })
-  console.log(iHeadline)
-  console.log(images)
+      )
+  const newHeadline = iHeadline.map((word, index) => 
+      <IphoneHeader key={index} className={index === 0 ? "firstWord" : "secondWord"} 
+      style={{color: index === 0 ? "white" : `${colors.primaryOrange}`,}}>
+        {word}
+      </IphoneHeader>
+  )
 
   return (
     <Wrapper>
       <Background $bgImage={images.backgroundImg}>
         <MainContentWrapper
-          className={"breakMe"}
+          className={"allPhoneContent"}
           $bgImage={images.textBackground}>
           <MainContent>
             <Eyebrow>{textData.eyebrow}</Eyebrow>
@@ -57,12 +104,38 @@ const IphoneCTA = () => {
             <Link>{textData.link}</Link>
           </MainContent>
         </MainContentWrapper>
-        <IphoneAsset className={"iphoneAsset"} $bgImage={images.iphoneAsset}>
+        <IphoneAsset
+          className={"iphoneAsset"}
+          onClick={() => {
+            setPhoneFlipped(true)
+            return handleIphoneClick()
+          }}
+          $bgImage={images.iphoneAsset}>
           <IphoneBackgroundImg
             className={"iphoneBackground"}
             $bgImage={images.IphoneBackground}>
+            {phoneFlipped && (
+              <IphoneFlipDiv>
+                <StyledInputDiv>
+                  <Label htmlFor="username">Username</Label>
+                  <Input type="text" id="username" name="username" />
+                </StyledInputDiv>
+                <StyledInputDiv>
+                  <Label htmlFor="password">Password</Label>
+                  <Input type="password" name="password" id="password" />
+                </StyledInputDiv>
+                <LoginButtons>
+                  <SubmitButton 
+                  onClick={()=> {
+                    setPhoneFlipped(false)
+                   return handleBack()}}
+                  $back={'back'}>Back</SubmitButton>
+                  <SubmitButton>Login</SubmitButton>
+                </LoginButtons>
+              </IphoneFlipDiv>
+            )}
             <IphoneHeaderWrapper className={"iphoneHeader"}>
-              {newHeadline}
+              {phoneFlipped ? flippedHeadline : newHeadline}
             </IphoneHeaderWrapper>
             <IphoneBodyWrapper className={"iphoneBody"}>
               <IphoneBody>{iphoneData.body}</IphoneBody>
@@ -75,12 +148,61 @@ const IphoneCTA = () => {
 }
 
 export default IphoneCTA
+const SubmitButton = styled.button`
+cursor:pointer;
+${text.bodyMBold};
+border: none;
+background-color: transparent;
+border-radius:0.456vw;
+border:${props => props.$back ? `2px solid ${colors.primaryOrange}`: '2px solid white'};
+color:${props => props.$back ? `${colors.primaryOrange}`: 'white'};
+margin-top:1.042vw;
+transition:transform .4s ease-in-out;
+align-self: flex-end;
+&:hover{
+    transform:scale(1.1);
+}
+`
+const LoginButtons =styled.div`
+display: flex;
+width:fit-content;
+padding:0.208vw;
+align-self: flex-end;
+gap:0.694vw;
+`
+const Label = styled.label`
+  ${text.bodyMBold};
+  letter-spacing: 1px;
+`
+const Input = styled.input`
+  ${text.bodyM}
+  padding-left:0.694vw;
+  box-sizing: border-box;
+`
+
+const StyledInputDiv = styled.div`
+  color: ${colors.white};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.389vw;
+`
+const IphoneFlipDiv = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.694vw;
+  height: 18.889vw;
+  transform: rotate(270deg);
+`
 const IphoneBody = styled.p`
   ${text.bodyM}
   margin: unset;
 `
 const IphoneBodyWrapper = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,18 +225,17 @@ const IphoneHeader = styled.h2`
   margin:unset;
 `
 const IphoneHeaderWrapper = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(8px);
   overflow: hidden;
-  gap:0.694vw;
+  gap: 0.694vw;
   width: 100%;
   z-index: 100;
 `
 const IphoneBackgroundImg = styled.div`
-
   display: flex;
   align-items: center;
   color: ${colors.white};
@@ -129,10 +250,9 @@ const IphoneBackgroundImg = styled.div`
   width: 24.167vw;
   height: 49.514vw;
   gap: 4.514vw;
-  
 `
 const IphoneAsset = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,7 +265,7 @@ position: relative;
   border-radius: 3.736vw;
   width: 26.875vw;
   height: 54.861vw;
-  z-index:500;
+  z-index: 500;
 `
 const Link = styled.a`
   text-decoration: none;
@@ -159,9 +279,9 @@ const Body = styled.p`
   color: ${colors.primaryOrange};
 `
 const Header = styled.h2`
-  margin: unset;
   ${text.h2}
-  color:${colors.white};
+  margin: unset;
+  color: ${colors.white};
 `
 const Eyebrow = styled.p`
   ${text.eyebrow}
@@ -171,10 +291,8 @@ const MainContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: ${props =>
-    props.$bgImage ? `url(${props.$bgImage})` : "unset"};
   background-repeat: no-repeat;
-  background-color:black;
+  background-color: black;
   background-size: 38.368vw 28.074vw;
   width: 38.889vw;
   height: 29.444vw;
@@ -187,7 +305,7 @@ const MainContent = styled.div`
   color: ${colors.white};
   gap: 1.736vw;
   width: 38.889vw;
-  padding: 5.451vw 7.083vw 5.123vw 3.047vw;
+  padding: 5.451vw 2.083vw 5.123vw 3.047vw;
 `
 const Background = styled.div`
   display: flex;
@@ -202,8 +320,6 @@ const Background = styled.div`
   height: 53.472vw;
   gap: 14.306vw;
   padding: 0vw 17.292vw 0vw 7.014vw;
-  
-  
 `
 const Wrapper = styled.div`
   display: flex;
@@ -211,5 +327,9 @@ const Wrapper = styled.div`
   justify-content: center;
   background-color: white;
   padding: 150px 0px;
+  margin-top: -0.794vw;
+  margin-left: -0.794vw;
   overflow: hidden;
+  background-color: black;
+  width: 100vw;
 `

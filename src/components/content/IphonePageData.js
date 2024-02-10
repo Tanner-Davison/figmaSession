@@ -2,7 +2,7 @@ import DesktopBackground from '../../images/DesktopBackground.webp';
 import IphoneAsset from '../../images/IphoneAsset.webp';
 import IphoneBackground from '../../images/IphoneBackground.webp';
 import VectorBGimage from '../../images/VectorBGimage.webp';
-
+import flipImg from '../../images/flipImg.webp';
 
 export const pageData = [
   {
@@ -21,6 +21,7 @@ export const pageData = [
       iphoneAsset: IphoneAsset,
       IphoneBackground: IphoneBackground,
       textBackground: VectorBGimage,
+      flipImg: flipImg,
     }
   },
   {
