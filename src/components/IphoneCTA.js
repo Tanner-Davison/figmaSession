@@ -9,57 +9,71 @@ import {GSDevTools} from "gsap/GSDevTools"
 
 const IphoneCTA = () => {
   gsap.registerPlugin(GSDevTools)
+ 
+  const flipTl = gsap.timeline()
   const [phoneFlipped, setPhoneFlipped] = useState(false)
   const useHeadlineIfFlipped = ["User", "Login"]
   const textData = pageData[0].mainContent
   const images = pageData[1].images
   const {iphoneData} = pageData[2]
   const iHeadline = iphoneData.headline.split(" ")
+
+  
+  
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
     const Iphone = document.querySelectorAll(".iphoneAsset")
     const MainContent = document.querySelectorAll(".iphoneBackground")
     const Header = document.querySelectorAll(".iphoneHeader")
     const PhoneBody = document.querySelectorAll(".iphoneBody")
-
-    const flipTl = gsap.timeline()
+    const LoginBtn = document.querySelectorAll(".loginBtn")
+    
     flipTl.set(MainContent, {
       backgroundImage: `url(${images.flipImg})`,
       backgroundSize: "100%",
       backgroundPosition: "center",
     })
-    flipTl.to(Iphone, {rotation: 90, xPercent: -85, scale: 1.5, duration: 1.5})
+    flipTl.to(LoginBtn,{yPercent:600, opacity:0, duration:1})
+    flipTl.to(Iphone, {rotation: 90, xPercent: -85, scale: 1.5, duration: 1.5},'<')
     flipTl.to([PhoneBody], {yPercent: 400, duration: 2}, "<")
     flipTl.to([Header],{yPercent: 350, xPercent: -35, rotation: -90, duration: 1},"<")
     return
     }
+    
     const handleBack =()=>{
-       
-         const Iphone = document.querySelectorAll(".iphoneAsset")
-         const MainContent = document.querySelectorAll(".iphoneBackground")
-         const Header = document.querySelectorAll(".iphoneHeader")
-         const PhoneBody = document.querySelectorAll(".iphoneBody")
-
-         const flipBack = gsap.timeline()
-         flipBack.set(MainContent, {
-           backgroundImage: `url(${images.backgroundImg})`,
-           backgroundSize: "contain",
-           backgroundPosition: "center",
-         })
-         flipBack.to(Iphone, {
-           rotation: 0,
-           xPercent: 0,
-           scale: 1,
-           duration: 1.5,
-         })
-         flipBack.to([PhoneBody], {yPercent: 0, duration: 2}, "<")
-         flipBack.to(
-           [Header],
-           {yPercent: 0, xPercent: 0, rotation: 0, duration: 1},
-           "<"
-         )
+      setPhoneFlipped(false)
+ const flipDiv = document.querySelectorAll('.flipDiv') 
+ const Iphone = document.querySelectorAll(".iphoneAsset")
+ const MainContent = document.querySelectorAll(".iphoneBackground")
+ const Header = document.querySelectorAll(".iphoneHeader")
+ const PhoneBody = document.querySelectorAll(".iphoneBody")
+ const SubmitBtn = document.querySelectorAll('.submitBtn')
+ const flipTlBack = gsap.timeline({paused:false });
+ const LoginBtn = document.querySelectorAll(".loginBtn")
+ 
+ 
+ flipTlBack.to(Iphone, {rotation:360, xPercent: 0, scale: 1, duration: 1.5},'<')
+ flipTlBack
+   .to(flipDiv, {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},'<')
+  
+   flipTlBack.to(SubmitBtn,{yPercent:-500, duration:1},'<')
+   flipTlBack.set(
+     MainContent,
+     {
+       backGroundSize: "100%",
+       backgroundImage: `url(${images.IphoneBackground})`,
+       duration: 1,
+     },
+     "<"
+   )
+ flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1},'<')
+ flipTlBack.to( [Header],{yPercent:0, xPercent: 0, rotation: 0, duration: 1},'<')
+ flipTlBack.to(LoginBtn,{yPercent:0,opacity:1, duration:1},'<')
+ 
+ return
     }
   useEffect(() => {
+    
     const IphoneBody = document.querySelectorAll(".iphoneBody")
     const IphoneHeader = document.querySelectorAll(".iphoneHeader")
     const IphoneBg = document.querySelectorAll(".iphoneBackground")
@@ -104,18 +118,12 @@ const IphoneCTA = () => {
             <Link>{textData.link}</Link>
           </MainContent>
         </MainContentWrapper>
-        <IphoneAsset
-          className={"iphoneAsset"}
-          onClick={() => {
-            setPhoneFlipped(true)
-            return handleIphoneClick()
-          }}
-          $bgImage={images.iphoneAsset}>
+        <IphoneAsset className={"iphoneAsset"} $bgImage={images.iphoneAsset}>
           <IphoneBackgroundImg
             className={"iphoneBackground"}
             $bgImage={images.IphoneBackground}>
             {phoneFlipped && (
-              <IphoneFlipDiv>
+              <IphoneFlipDiv className={"flipDiv"}>
                 <StyledInputDiv>
                   <Label htmlFor="username">Username</Label>
                   <Input type="text" id="username" name="username" />
@@ -125,22 +133,35 @@ const IphoneCTA = () => {
                   <Input type="password" name="password" id="password" />
                 </StyledInputDiv>
                 <LoginButtons>
-                  <SubmitButton 
-                  onClick={()=> {
-                    setPhoneFlipped(false)
-                   return handleBack()}}
-                  $back={'back'}>Back</SubmitButton>
-                  <SubmitButton>Login</SubmitButton>
+                  <SubmitButton
+                    className={"submitBtn"}
+                    onClick={() => {
+                      return handleBack()
+                    }}
+                    $back={"back"}>
+                    Back
+                  </SubmitButton>
+                  <SubmitButton className={"submitBtn"}>Login</SubmitButton>
                 </LoginButtons>
               </IphoneFlipDiv>
             )}
             <IphoneHeaderWrapper className={"iphoneHeader"}>
-              {phoneFlipped ? flippedHeadline : newHeadline}
+              {phoneFlipped && flippedHeadline}
+              {!phoneFlipped && newHeadline}
             </IphoneHeaderWrapper>
             <IphoneBodyWrapper className={"iphoneBody"}>
               <IphoneBody>{iphoneData.body}</IphoneBody>
             </IphoneBodyWrapper>
+            <SubmitButtonLogin
+            className={'loginBtn'}
+              onClick={() => {
+                setPhoneFlipped(true)
+                return handleIphoneClick()
+              }}>
+              Login
+            </SubmitButtonLogin>
           </IphoneBackgroundImg>
+          <BlackBox/>
         </IphoneAsset>
       </Background>
     </Wrapper>
@@ -148,6 +169,20 @@ const IphoneCTA = () => {
 }
 
 export default IphoneCTA
+const SubmitButtonLogin = styled.button`
+  cursor: pointer;
+  ${text.bodyMBold};
+  border: none;
+  background-color: transparent;
+  border-radius: 0.456vw;
+  border: 2px solid white;
+  color: white;
+  margin-top: 1.042vw;
+  transition: transform 0.4s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+`
 const SubmitButton = styled.button`
 cursor:pointer;
 ${text.bodyMBold};
@@ -251,6 +286,15 @@ const IphoneBackgroundImg = styled.div`
   height: 49.514vw;
   gap: 4.514vw;
 `
+const BlackBox = styled.div`
+position: absolute;
+bottom:5px;
+display: flex;
+width:75%;
+border-radius:25px;
+height: 10px;
+background-color: black;
+`
 const IphoneAsset = styled.div`
   position: relative;
   display: flex;
@@ -317,7 +361,6 @@ const Background = styled.div`
   background-size: 100vw 47.792vw;
   background-position: center;
   max-width: 100vw;
-  height: 53.472vw;
   gap: 14.306vw;
   padding: 0vw 17.292vw 0vw 7.014vw;
 `
@@ -330,6 +373,6 @@ const Wrapper = styled.div`
   margin-top: -0.794vw;
   margin-left: -0.794vw;
   overflow: hidden;
-  background-color: black;
+  background: ${colors.black};
   width: 100vw;
 `
