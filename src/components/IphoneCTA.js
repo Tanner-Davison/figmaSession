@@ -9,7 +9,6 @@ import {GSDevTools} from "gsap/GSDevTools"
 
 const IphoneCTA = () => {
   gsap.registerPlugin(GSDevTools)
- 
   const flipTl = gsap.timeline()
   const [phoneFlipped, setPhoneFlipped] = useState(false)
   const useHeadlineIfFlipped = ["User", "Login"]
@@ -17,9 +16,6 @@ const IphoneCTA = () => {
   const images = pageData[1].images
   const {iphoneData} = pageData[2]
   const iHeadline = iphoneData.headline.split(" ")
-
-  
-  
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
     const Iphone = document.querySelectorAll(".iphoneAsset")
@@ -27,7 +23,6 @@ const IphoneCTA = () => {
     const Header = document.querySelectorAll(".iphoneHeader")
     const PhoneBody = document.querySelectorAll(".iphoneBody")
     const LoginBtn = document.querySelectorAll(".loginBtn")
-    
     flipTl.set(MainContent, {
       backgroundImage: `url(${images.flipImg})`,
       backgroundSize: "100%",
@@ -39,25 +34,23 @@ const IphoneCTA = () => {
     flipTl.to([Header],{yPercent: 350, xPercent: -35, rotation: -90, duration: 1},"<")
     return
     }
-    
     const handleBack =()=>{
-      setPhoneFlipped(false)
- const flipDiv = document.querySelectorAll('.flipDiv') 
- const Iphone = document.querySelectorAll(".iphoneAsset")
- const MainContent = document.querySelectorAll(".iphoneBackground")
- const Header = document.querySelectorAll(".iphoneHeader")
- const PhoneBody = document.querySelectorAll(".iphoneBody")
- const SubmitBtn = document.querySelectorAll('.submitBtn')
- const flipTlBack = gsap.timeline({paused:false });
- const LoginBtn = document.querySelectorAll(".loginBtn")
- 
- 
- flipTlBack.to(Iphone, {rotation:360, xPercent: 0, scale: 1, duration: 1.5},'<')
- flipTlBack
-   .to(flipDiv, {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},'<')
+    setPhoneFlipped(false)
+    const flipDiv = document.querySelectorAll('.flipDiv') 
+    const Iphone = document.querySelectorAll(".iphoneAsset")
+    const MainContent = document.querySelectorAll(".iphoneBackground")
+    const Header = document.querySelectorAll(".iphoneHeader")
+    const PhoneBody = document.querySelectorAll(".iphoneBody")
+    const SubmitBtn = document.querySelectorAll('.submitBtn')
+    const flipTlBack = gsap.timeline({paused:false });
+    const LoginBtn = document.querySelectorAll(".loginBtn")
+
+    flipTlBack.to(Iphone, {rotation:360, xPercent: 0, scale: 1, duration: 1.5},'<')
+    flipTlBack
+      .to(flipDiv, {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},'<')
   
-   flipTlBack.to(SubmitBtn,{yPercent:-500, duration:1},'<')
-   flipTlBack.set(
+    flipTlBack.to(SubmitBtn,{yPercent:-500, duration:1},'<')
+    flipTlBack.set(
      MainContent,
      {
        backGroundSize: "100%",
@@ -66,14 +59,14 @@ const IphoneCTA = () => {
      },
      "<"
    )
- flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1},'<')
- flipTlBack.to( [Header],{yPercent:0, xPercent: 0, rotation: 0, duration: 1},'<')
- flipTlBack.to(LoginBtn,{yPercent:0,opacity:1, duration:1},'<')
+  flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1},'<')
+  flipTlBack.to( [Header],{yPercent:0, xPercent: 0, rotation: 0, duration: 1},'<')
+  flipTlBack.to(LoginBtn,{yPercent:0,opacity:1, duration:1},'<')
  
- return
+    return
     }
   useEffect(() => {
-    
+
     const IphoneBody = document.querySelectorAll(".iphoneBody")
     const IphoneHeader = document.querySelectorAll(".iphoneHeader")
     const IphoneBg = document.querySelectorAll(".iphoneBackground")
