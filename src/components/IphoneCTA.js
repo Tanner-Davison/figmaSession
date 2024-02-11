@@ -134,7 +134,7 @@ const IphoneCTA = () => {
             <Eyebrow>{textData.eyebrow}</Eyebrow>
             <Header>{textData.headline}</Header>
             <Body>{textData.body}</Body>
-            <Link href={'/page-2'}>{textData.link}</Link>
+            <Link href={"/page-2"}>{textData.link}</Link>
           </MainContent>
         </MainContentWrapper>
 
@@ -183,7 +183,6 @@ const IphoneCTA = () => {
           </IphoneBackgroundImg>
           <BlackBox />
         </IphoneAsset>
-
       </Background>
     </Wrapper>
   )
@@ -224,14 +223,12 @@ const LoginButtonsDiv = styled.div`
   display: flex;
   width: fit-content;
   align-self: flex-end;
+  box-sizing: border-box;
   padding: 0.208vw;
   gap: 0.694vw;
   ${media.fullWidth} {
     padding: 3px;
     gap: 10px;
-  }
-
-  ${media.tablet} {
   }
 
   ${media.mobile} {
@@ -242,7 +239,7 @@ const Label = styled.label`
   letter-spacing: 1px;
 `
 const Input = styled.input`
-  ${text.bodyM}
+  ${text.bodyMBold}
   padding-left:0.694vw;
   box-sizing: border-box;
   ${media.fullWidth} {
@@ -267,7 +264,7 @@ const StyledInputDiv = styled.div`
   }
 
   ${media.tablet} {
-
+    gap: 1.389vw;
   }
 
   ${media.mobile} {
@@ -302,12 +299,12 @@ const SubmitButtonLogin = styled.button`
   ${text.bodyMBold};
   border: none;
   background-color: transparent;
-  border: 2px solid white;
+  border: 0.139vw solid white;
   color: white;
   border-radius: 0.456vw;
   margin-top: 1.042vw;
   transition: transform 0.2s ease-in-out;
-  
+
   &:hover {
     transform: scale(1.09);
   }
@@ -317,11 +314,10 @@ const SubmitButtonLogin = styled.button`
   }
 
   ${media.tablet} {
-    width:100px;
-    background-color: rgba(0,0,0,0.8);
-    border:1px solid ${colors.primaryOrange};
-    color:${colors.primaryOrange};
-
+    width: 100px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 0.098vw solid ${colors.primaryOrange};
+    color: ${colors.primaryOrange};
   }
 
   ${media.mobile} {
@@ -337,8 +333,8 @@ const IphoneBodyWrapper = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  backdrop-filter: blur(2px);
-  border-radius: 18px;
+  backdrop-filter: blur(0.439vw);
+  border-radius: 1.25vw;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -346,20 +342,21 @@ const IphoneBodyWrapper = styled.div`
     rgba(0, 0, 0, 0.77) 100%
   );
 
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0vw 0.278vw 0.278vw 0vw rgba(0, 0, 0, 0.25);
   z-index: 50;
 
   border-radius: 1.25vw;
   width: 18.889vw;
   ${media.fullWidth} {
     border-radius: 18px;
-    box-shadow: 0vw 0.278vw 0.278vw 0vw rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 272px;
   }
 
   ${media.tablet} {
     width: 100%;
     padding: 1.172vw;
+    box-shadow: 0vw 0.278vw 0.278vw 0vw rgba(0, 0, 0, 0.25);
   }
 
   ${media.mobile} {
@@ -374,7 +371,7 @@ const IphoneHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(0.556vw);
   overflow: hidden;
   gap: 0.694vw;
   width: 100%;
@@ -418,7 +415,7 @@ const IphoneBackgroundImg = styled.div`
     height: 88%;
     background-size: cover;
     gap: 3.8vw;
-    border-radius: 21px;
+    border-radius: 2.051vw;
   }
 
   ${media.mobile} {
@@ -439,8 +436,6 @@ const BlackBox = styled.div`
     height: 10px;
   }
 
-
-
   ${media.mobile} {
   }
 `
@@ -459,8 +454,10 @@ const IphoneAsset = styled.div`
   border-radius: 3.736vw;
   width: 26.875vw;
   height: 54.861vw;
-  -webkit-box-shadow: -2px 14px 18px -5px #000000, -2px -10px 18px -7px #000000;
-  box-shadow: -2px 14px 18px -5px #000000, -2px -10px 18px -7px #000000;
+  -webkit-box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
+    -0.139vw -0.694vw 1.25vw -0.486vw #000000;
+  box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
+    -0.139vw -0.694vw 1.25vw -0.486vw #000000;
   ${media.fullWidth} {
     border-radius: 66px;
     width: 382px;
@@ -470,7 +467,7 @@ const IphoneAsset = styled.div`
   ${media.tablet} {
     width: 33.493vw;
     height: 68.188vw;
-    border-radius: 50px;
+    border-radius: 5.883vw;
   }
 
   ${media.mobile} {
@@ -478,7 +475,7 @@ const IphoneAsset = styled.div`
 `
 const Link = styled.a`
   text-decoration: none;
-  color:white;
+  color: white;
   ${text.bodyMBold}
   margin:unset;
   margin-top: 1.389vw;
@@ -550,7 +547,7 @@ const MainContentWrapper = styled.div`
     width: 40.145vw;
     height: 41.016vw;
     border-radius: 2.441vw;
-    padding: 30px;
+    padding: 2.93vw;
   }
 
   ${media.mobile} {
@@ -582,7 +579,7 @@ const Background = styled.div`
     min-width: 100vw;
     max-width: 100vw;
     gap: 5.129vw;
-    padding:unset;
+    padding: unset;
   }
 
   ${media.mobile} {
@@ -595,7 +592,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   background: ${colors.white};
   width: 100vw;
-  padding: 10.417vw 0px;
+  padding: 10.417vw 0;
   margin-top: -0.764vw;
   margin-left: -0.864vw;
 
