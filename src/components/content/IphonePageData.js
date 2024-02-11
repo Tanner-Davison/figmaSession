@@ -29,7 +29,7 @@ export const pageData = [
     iphoneData: {
       headline: "Lorem Ipsum.",
       body:
-        "Lorem ipsum dolor sit amet consectetur. Massa odio at nam sodales suspendisse viverra eget in tellus. Vulputate et imperdiet auctor duis netus auctor. Donec arcu id cum viverra et velit lorem ullamcorper mi. Mi amet placerat morbi nulla penatibus.",
+        "Lorem ipsum dolor sit amet consectetur. Massa odio at nam sodales suspendisse viverra eget in tellus. Vulputate et imperdiet auctor duis netus auctor.",
     },
   },
 ]
