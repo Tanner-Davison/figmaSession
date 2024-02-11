@@ -13,32 +13,33 @@ const PageSections = ({content}) =>{
   console.log("PageSections component rendering:", content)
   return(
     <div className={'page-content'}>
-      <PageSection section={content}/>
+     { content.nodes.map((item, i)=>{ 
+     console.log(item);
+     return <PageSection section={item.relativePath}/>}
+     )}
     </div>
   )
 }
 const HomePage = () => {
 
-return(
-<StaticQuery
-  query={graphql`
-    query AllDataQuery {
-      site {
-        siteMetadata {
-          title
-          description
-          author
+return (
+  <StaticQuery
+    query={graphql`
+      query AllDataQuery {
+        allFile {
+          nodes {
+            relativePath
+          }
         }
       }
-    }
-  `}
-  render={data => (
-    <Layout>
-      <PageSections content={data} />
-    </Layout>
+    `}
+    render={ data => (
+      <Layout>
+        <PageSections content={data.allFile} />
+      </Layout>
     )}
   />
-  )
+)
 }
 
 // return (
@@ -57,6 +58,7 @@ return(
 export default HomePage;
 
 export const Head = () => <Seo title="Home" />
+
 
 
 

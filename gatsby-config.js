@@ -54,5 +54,24 @@ module.exports = {
         fonts: [`Orbitron`, `Archivo`, `Roboto Mono`],
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        // The unique name for each instance
+        name: `notes`,
+        // Path to the directory
+        path: `${__dirname}/src/notes/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        // The unique name for each instance
+        name: `content`,
+        // Path to the directory
+        path: `${__dirname}/src/components/content/`,
+      },
+    },
   ],
 }
+

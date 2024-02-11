@@ -7,7 +7,7 @@ import ContentWidth from "./ContentWidth"
 import { componentToRender } from "../utils/componentToRender"
 
 const PageSection = ({section}) => {
-  const content = componentToRender(section.site.siteMetadata?.title, section)
+  const content = componentToRender(section, section)
  
   return (
     <Section
