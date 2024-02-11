@@ -76,7 +76,7 @@ const IphoneCTA = () => {
     gsap.set(Iphone, {yPercent: 400, rotate: 180})
     gsap.set(IphoneBg, {scale: -1, opacity: 0})
     gsap.set(IphoneBody, {yPercent: 300})
-    gsap.set(FirstWord, {xPercent: -200})
+    gsap.set(FirstWord, {xPercent: -200}) 
     gsap.set(SecondWord, {xPercent: 200})
     const onStart = gsap.timeline({paused: false})
     onStart.to(Iphone, {yPercent: 0, rotate: 360, duration: 2})
