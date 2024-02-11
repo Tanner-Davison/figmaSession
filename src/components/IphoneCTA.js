@@ -613,18 +613,21 @@ const Wrapper = styled.div`
   background: ${colors.white};
   width: 100vw;
   padding: 10.417vw 0;
-  margin-top: -0.764vw;
-  margin-left: -0.864vw;
+
+  margin-left: -0.64vw;
 
   ${media.fullWidth} {
-    padding: 150px 0px;
+    padding: 45px 0px;
+    margin-left: -7.5px;
   }
 
   ${media.tablet} {
-    margin-top: -0.764vw;
-    margin-left: -0.964vw;
+    margin-left: -0.93vw;
+    padding:1.977vw 0vw 5.953vw 0vw;
   }
 
   ${media.mobile} {
   }
 `
+
+
