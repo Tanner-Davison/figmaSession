@@ -7,7 +7,7 @@
 
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import IphoneCTA from "./IphoneCTA" ;
+import styled from "styled-components";
 
 
 
@@ -24,10 +24,17 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
+    <PageWrapper>
       {children}
-    </>
+    </PageWrapper>
   )
 }
 
 export default Layout
+
+const PageWrapper = styled.div`
+display: flex;
+flex-direction: column;
+margin:0px;
+
+`

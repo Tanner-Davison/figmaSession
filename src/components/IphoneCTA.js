@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react"
 import styled from "styled-components"
-import media from "../styles/media"
-import colors from "../styles/colors"
-import text from "../styles/text"
+import media from "styles/media"
+import colors from "styles/colors"
+import text from "styles/text"
 import {pageData} from "./content/IphonePageData"
 import {gsap} from "gsap"
 import {GSDevTools} from "gsap/GSDevTools"
 
-const IphoneCTA = () => {
+const IphoneCTA = ({content}) => {
+  
   gsap.registerPlugin(GSDevTools)
   const flipTl = gsap.timeline()
   const [phoneFlipped, setPhoneFlipped] = useState(false)
@@ -623,7 +624,7 @@ const Wrapper = styled.div`
 
   ${media.tablet} {
     margin-left: -0.93vw;
-    padding:1.977vw 0vw 5.953vw 0vw;
+    padding:1.977vw 0vw 9.953vw 0vw;
   }
 
   ${media.mobile} {
