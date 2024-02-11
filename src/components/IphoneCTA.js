@@ -11,11 +11,13 @@ const IphoneCTA = () => {
   gsap.registerPlugin(GSDevTools)
   const flipTl = gsap.timeline()
   const [phoneFlipped, setPhoneFlipped] = useState(false)
+  const [isMobile, setIsMobile]=useState(false);
   const useHeadlineIfFlipped = ["User", "Login"]
   const textData = pageData[0].mainContent
   const images = pageData[1].images
   const {iphoneData} = pageData[2]
   const iHeadline = iphoneData.headline.split(" ")
+ 
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
     const Iphone = document.querySelectorAll(".iphoneAsset")
@@ -84,7 +86,17 @@ const IphoneCTA = () => {
 
     return
   }
+   window.addEventListener("resize", function () {
+     const windowWidth = window.innerWidth
+     if(windowWidth <=480){
+      setIsMobile(true)
+     }else{
+      isMobile && windowWidth>480 && setIsMobile(false);
+     }
+     return
+   })
   useEffect(() => {
+    window.innerWidth<=480 && setIsMobile(true)
     const IphoneBody = document.querySelectorAll(".iphoneBody")
     const IphoneHeader = document.querySelectorAll(".iphoneHeader")
     const IphoneBg = document.querySelectorAll(".iphoneBackground")
@@ -127,7 +139,8 @@ const IphoneCTA = () => {
   return (
     <Wrapper>
       <Background $bgImage={images.backgroundImg}>
-        <MainContentWrapper
+
+     { !isMobile &&  <MainContentWrapper
           className={"allPhoneContent"}
           $bgImage={images.textBackground}>
           <MainContent>
@@ -136,7 +149,7 @@ const IphoneCTA = () => {
             <Body>{textData.body}</Body>
             <Link href={"/page-2"}>{textData.link}</Link>
           </MainContent>
-        </MainContentWrapper>
+        </MainContentWrapper>}
 
         <IphoneAsset className={"iphoneAsset"} $bgImage={images.iphoneAsset}>
           <IphoneBackgroundImg
@@ -304,6 +317,10 @@ const SubmitButtonLogin = styled.button`
   border-radius: 0.456vw;
   margin-top: 1.042vw;
   transition: transform 0.2s ease-in-out;
+  width: 9.766vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 0.098vw solid ${colors.primaryOrange};
+  color: ${colors.primaryOrange};
 
   &:hover {
     transform: scale(1.09);
@@ -311,10 +328,11 @@ const SubmitButtonLogin = styled.button`
   ${media.fullWidth} {
     border-radius: 7px;
     margin-top: 15px;
+    width: 141px;
   }
 
   ${media.tablet} {
-    width: 100px;
+    width: 9.766vw;
     background-color: rgba(0, 0, 0, 0.8);
     border: 0.098vw solid ${colors.primaryOrange};
     color: ${colors.primaryOrange};
@@ -490,6 +508,7 @@ const Body = styled.p`
   ${text.bodyM};
   margin: unset;
   color: ${colors.primaryOrange};
+  width:85%;
 `
 const Header = styled.h2`
   ${text.h2}
@@ -507,6 +526,7 @@ const MainContent = styled.div`
   align-items: left;
   justify-content: center;
   color: ${colors.white};
+  
   gap: 1.736vw;
   width: 38.889vw;
 
@@ -528,7 +548,7 @@ const MainContentWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background-repeat: no-repeat;
-  background-color: black;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
   background-size: 38.368vw 28.074vw;
   width: 38.889vw;
   height: 29.444vw;

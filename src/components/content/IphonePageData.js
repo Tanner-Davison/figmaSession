@@ -9,7 +9,7 @@ export const pageData = [
     id:0,
     mainContent: {
       eyebrow: "eyebrow",
-      headline: "Lorem Ipsum Delor",
+      headline: "Ipsum Delor",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent auctor leo sapien, et mollis elit finibus a. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
       link: "Learn more  ",
     },
