@@ -8,17 +8,16 @@ import {gsap} from "gsap"
 import {GSDevTools} from "gsap/GSDevTools"
 
 const IphoneCTA = ({content}) => {
-  
   gsap.registerPlugin(GSDevTools)
   const flipTl = gsap.timeline()
   const [phoneFlipped, setPhoneFlipped] = useState(false)
-  const [isMobile, setIsMobile]=useState(false);
+  const [isMobile, setIsMobile] = useState(false)
   const useHeadlineIfFlipped = ["User", "Login"]
   const textData = pageData[0].mainContent
   const images = pageData[1].images
   const {iphoneData} = pageData[2]
   const iHeadline = iphoneData.headline.split(" ")
- 
+
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
     const Iphone = document.querySelectorAll(".iphoneAsset")
@@ -26,23 +25,52 @@ const IphoneCTA = ({content}) => {
     const Header = document.querySelectorAll(".iphoneHeader")
     const PhoneBody = document.querySelectorAll(".iphoneBody")
     const LoginBtn = document.querySelectorAll(".loginBtn")
+    const iphone = {
+      x: isMobile ? 0 : -75,
+      scale: isMobile ? 1.15 : 1.4,
+      rotation: isMobile ? 360 : 90,
+      duration: isMobile ? 0.8 : 1.5,
+    }
+    const header = {
+      x: isMobile ? 0 : -35,
+      y: isMobile ? 150 : 350,
+      rotation: isMobile ? 360 : -90,
+    }
+
     flipTl.set(MainContent, {
       backgroundImage: `url(${images.flipImg})`,
       backgroundSize: "100%",
       backgroundPosition: "center",
-    })
-    flipTl.to(LoginBtn, {yPercent: 600, opacity: 0, duration: 1})
+      })
+
+    flipTl.to(LoginBtn,
+      {yPercent: 600,
+        opacity: 0,
+        duration: 1},
+        "<")
+
     flipTl.to(
       Iphone,
-      {rotation: 90, xPercent: -85, scale: 1.4, duration: 1.5},
+      {
+        rotation: iphone.rotation,
+        xPercent: iphone.x,
+        scale: iphone.scale,
+        duration: iphone.duration,
+      },
       "<"
     )
-    flipTl.to([PhoneBody], {yPercent: 400, duration: 2}, "<")
+    flipTl.to(PhoneBody, {yPercent: 400, duration: 2}, "<")
     flipTl.to(
-      [Header],
-      {yPercent: 350, xPercent: -35, rotation: -90, duration: 1},
+      Header,
+      {
+        yPercent: header.y,
+        xPercent: header.x,
+        rotation: header.rotation,
+        duration: 1,
+      },
       "<"
     )
+
     return
   }
   const handleBack = () => {
@@ -55,7 +83,6 @@ const IphoneCTA = ({content}) => {
     const SubmitBtn = document.querySelectorAll(".submitBtn")
     const flipTlBack = gsap.timeline({paused: false})
     const LoginBtn = document.querySelectorAll(".loginBtn")
-
     flipTlBack.to(
       Iphone,
       {rotation: 360, xPercent: 0, scale: 1, duration: 1.5},
@@ -66,8 +93,10 @@ const IphoneCTA = ({content}) => {
       {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},
       "<"
     )
-
-    flipTlBack.to(SubmitBtn, {yPercent: -500, duration: 1}, "<")
+    flipTlBack.to(SubmitBtn, 
+      {yPercent: -500,
+         duration: 1},
+       "<")
     flipTlBack.set(
       MainContent,
       {
@@ -77,29 +106,35 @@ const IphoneCTA = ({content}) => {
       },
       "<"
     )
-    flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1}, "<")
+    flipTlBack.to([PhoneBody],
+       {yPercent: 0,
+         duration: 1}, "<")
     flipTlBack.to(
       [Header],
-      {yPercent: 0, xPercent: 0, rotation: 0, duration: 1},
+      {yPercent: 0,
+         xPercent: 0,
+          rotation: 0,
+           duration: 1,
+          },
       "<"
     )
     flipTlBack.to(LoginBtn, {yPercent: 0, opacity: 1, duration: 1}, "<")
 
     return
   }
-   window.addEventListener("resize", function () {
-     const windowWidth = window.innerWidth
-     if(windowWidth <=480){
+
+  window.addEventListener("resize", function () {
+    const windowWidth = window.innerWidth
+    if (windowWidth <= 480) {
       setIsMobile(true)
-     }else{
-      isMobile && windowWidth>480 && setIsMobile(false);
-     }
-     return
-   })
+    } else {
+      isMobile && windowWidth > 480 && setIsMobile(false)
+    }
+    return
+  })
   useEffect(() => {
-    window.innerWidth<=480 && setIsMobile(true)
+    window.innerWidth <= 480 && setIsMobile(true)
     const IphoneBody = document.querySelectorAll(".iphoneBody")
-    const IphoneHeader = document.querySelectorAll(".iphoneHeader")
     const IphoneBg = document.querySelectorAll(".iphoneBackground")
     const Iphone = document.querySelectorAll(".iphoneAsset")
     const FirstWord = document.getElementsByClassName("firstWord")
@@ -140,24 +175,25 @@ const IphoneCTA = ({content}) => {
   return (
     <Wrapper>
       <Background $bgImage={images.backgroundImg}>
-
-     { !isMobile &&  <MainContentWrapper
-          className={"allPhoneContent"}
-          $bgImage={images.textBackground}>
-          <MainContent>
-            <Eyebrow>{textData.eyebrow}</Eyebrow>
-            <Header>{textData.headline}</Header>
-            <Body>{textData.body}</Body>
-            <Link href={"/page-2"}>{textData.link}</Link>
-          </MainContent>
-        </MainContentWrapper>}
+        {!isMobile && (
+          <MainContentWrapper
+            className={"allPhoneContent"}
+            $bgImage={images.textBackground}>
+            <MainContent>
+              <Eyebrow>{textData.eyebrow}</Eyebrow>
+              <Header>{textData.headline}</Header>
+              <Body>{textData.body}</Body>
+              <Link href={"/page-2"}>{textData.link}</Link>
+            </MainContent>
+          </MainContentWrapper>
+        )}
 
         <IphoneAsset className={"iphoneAsset"} $bgImage={images.iphoneAsset}>
           <IphoneBackgroundImg
             className={"iphoneBackground"}
             $bgImage={images.IphoneBackground}>
             {phoneFlipped && (
-              <IphoneFlipDiv className={"flipDiv"}>
+              <IphoneFlipDiv className={"flipDiv"} $mobile={isMobile}>
                 <StyledInputDiv>
                   <Label htmlFor="username">Username</Label>
                   <Input type="text" id="username" name="username" />
@@ -246,6 +282,8 @@ const LoginButtonsDiv = styled.div`
   }
 
   ${media.mobile} {
+    gap: 15px;
+    margin-top: 25px;
   }
 `
 const Label = styled.label`
@@ -256,6 +294,7 @@ const Input = styled.input`
   ${text.bodyMBold}
   padding-left:0.694vw;
   box-sizing: border-box;
+  border-radius: 6px;
   ${media.fullWidth} {
     padding-left: 10px;
   }
@@ -272,6 +311,7 @@ const StyledInputDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 1.389vw;
   ${media.fullWidth} {
     gap: 20px;
@@ -282,6 +322,9 @@ const StyledInputDiv = styled.div`
   }
 
   ${media.mobile} {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 `
 const IphoneFlipDiv = styled.div`
@@ -290,9 +333,10 @@ const IphoneFlipDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: rotate(270deg);
+  transform: ${props => (props.$mobile ? "unset" : "rotate(270deg)")};
   gap: 0.694vw;
   height: 18.889vw;
+  z-index: 300;
   ${media.fullWidth} {
     gap: 10px;
     height: 272px;
@@ -306,6 +350,7 @@ const IphoneFlipDiv = styled.div`
   }
 
   ${media.mobile} {
+    gap: 4vw;
   }
 `
 const SubmitButtonLogin = styled.button`
@@ -334,12 +379,16 @@ const SubmitButtonLogin = styled.button`
 
   ${media.tablet} {
     width: 9.766vw;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.2);
     border: 0.098vw solid ${colors.primaryOrange};
     color: ${colors.primaryOrange};
   }
 
   ${media.mobile} {
+    width: 34.533vw;
+    border: 3px solid white;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
   }
 `
 const IphoneBody = styled.p`
@@ -379,6 +428,8 @@ const IphoneBodyWrapper = styled.div`
   }
 
   ${media.mobile} {
+    width: 69.393vw;
+    height: 45.334vw;
   }
 `
 const IphoneHeader = styled.h2`
@@ -402,6 +453,7 @@ const IphoneHeaderWrapper = styled.div`
   }
 
   ${media.mobile} {
+    gap: 2.804vw;
   }
 `
 const IphoneBackgroundImg = styled.div`
@@ -438,6 +490,9 @@ const IphoneBackgroundImg = styled.div`
   }
 
   ${media.mobile} {
+    width: 88%;
+    height: 147.561vw;
+    gap: 20.8vw;
   }
 `
 const BlackBox = styled.div`
@@ -456,6 +511,8 @@ const BlackBox = styled.div`
   }
 
   ${media.mobile} {
+    bottom: 2%;
+    height: 2.804vw;
   }
 `
 const IphoneAsset = styled.div`
@@ -490,6 +547,9 @@ const IphoneAsset = styled.div`
   }
 
   ${media.mobile} {
+    width: 84.112vw;
+    height: 170.561vw;
+    border-radius: 14.019vw;
   }
 `
 const Link = styled.a`
@@ -509,7 +569,7 @@ const Body = styled.p`
   ${text.bodyM};
   margin: unset;
   color: ${colors.primaryOrange};
-  width:85%;
+  width: 85%;
 `
 const Header = styled.h2`
   ${text.h2}
@@ -527,7 +587,7 @@ const MainContent = styled.div`
   align-items: left;
   justify-content: center;
   color: ${colors.white};
-  
+
   gap: 1.736vw;
   width: 38.889vw;
 
@@ -539,9 +599,6 @@ const MainContent = styled.div`
   ${media.tablet} {
     width: 100%;
     gap: 2.441vw;
-  }
-
-  ${media.mobile} {
   }
 `
 const MainContentWrapper = styled.div`
@@ -569,9 +626,6 @@ const MainContentWrapper = styled.div`
     height: 41.016vw;
     border-radius: 2.441vw;
     padding: 2.93vw;
-  }
-
-  ${media.mobile} {
   }
 `
 const Background = styled.div`
@@ -604,6 +658,10 @@ const Background = styled.div`
   }
 
   ${media.mobile} {
+    background-size: 100% 136.916vw;
+    padding: 25.234vw 100%;
+    min-width: 91.121vw;
+    min-height: 150.467vw;
   }
 `
 const Wrapper = styled.div`
@@ -624,11 +682,10 @@ const Wrapper = styled.div`
 
   ${media.tablet} {
     margin-left: -0.93vw;
-    padding:1.977vw 0vw 9.953vw 0vw;
+    padding: 1.977vw 0vw 9.953vw 0vw;
   }
 
   ${media.mobile} {
+    padding: unset;
   }
 `
-
-

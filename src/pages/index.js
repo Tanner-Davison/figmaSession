@@ -15,7 +15,7 @@ const PageSections = ({content}) =>{
     <div className={'page-content'}>
      { content.nodes.map((item, i)=>{ 
      console.log(item);
-     return <PageSection section={item.relativePath}/>}
+     return <PageSection key={i} section={item.relativePath}/>}
      )}
     </div>
   )
@@ -42,13 +42,7 @@ return (
 )
 }
 
-// return (
-// <Layout >
- 
-//   <PageSections content={data}/>
-//  <IphoneCTA data={data}/>
-// </Layout>
-// )
+
 
 /**
  * Head export to define metadata for the page
