@@ -6,9 +6,9 @@ import Testing from "../components/Testing"
 export const componentToRender = (path, content) => {
   console.log(path, content)
   switch (path) {
-    case 'IphonePageData.js':
+    case "IphonePageData.js":
       return <IphoneCTA content={content} />
-    case "foo.txt":
+    case "dojo-coffee-house.md":
       return <Testing content={content} />
   }
 }
