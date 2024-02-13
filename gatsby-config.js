@@ -54,6 +54,12 @@ module.exports = {
         fonts: [`Orbitron`, `Archivo`, `Roboto Mono`],
       },
     },
+     {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {
+         displayName: true,
+      },
+    },
     {
       resolve: `gatsby-transformer-remark`,
       options: {

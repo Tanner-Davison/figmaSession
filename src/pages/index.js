@@ -29,8 +29,8 @@ return (
         allFile {
           nodes {
             relativePath
-          }
-        }
+          },
+        },
       }
     `}
     render={ data => (

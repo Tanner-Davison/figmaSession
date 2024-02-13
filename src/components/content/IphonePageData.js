@@ -5,7 +5,7 @@ import VectorBGimage from '../../images/VectorBGimage.webp';
 import flipImg from '../../images/flipImg.webp';
 
 export const pageData = [
-  {
+    {
     id:0,
     mainContent: {
       eyebrow: "eyebrow",
