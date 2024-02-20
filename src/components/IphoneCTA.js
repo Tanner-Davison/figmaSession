@@ -7,7 +7,6 @@ import {pageData} from "./content/IphonePageData"
 import {gsap} from "gsap"
 import {GSDevTools} from "gsap/GSDevTools"
 
-
 const IphoneCTA = ({content}) => {
   gsap.registerPlugin(GSDevTools)
   const flipTl = gsap.timeline()
@@ -21,8 +20,8 @@ const IphoneCTA = ({content}) => {
 
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
-    console.log('hello world');
-    
+    console.log("hello world")
+
     const Iphone = document.querySelectorAll(".iphoneAsset")
     const MainContent = document.querySelectorAll(".iphoneBackground")
     const Header = document.querySelectorAll(".iphoneHeader")
@@ -55,7 +54,7 @@ const IphoneCTA = ({content}) => {
         scale: iphone.scale,
         duration: iphone.duration,
       },
-      "<"
+      "<",
     )
     flipTl.to(PhoneBody, {yPercent: 400, duration: 2}, "<")
     flipTl.to(
@@ -66,7 +65,7 @@ const IphoneCTA = ({content}) => {
         rotation: header.rotation,
         duration: 1,
       },
-      "<"
+      "<",
     )
 
     return
@@ -84,12 +83,12 @@ const IphoneCTA = ({content}) => {
     flipTlBack.to(
       Iphone,
       {rotation: 360, xPercent: 0, scale: 1, duration: 1.5},
-      "<"
+      "<",
     )
     flipTlBack.to(
       flipDiv,
       {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},
-      "<"
+      "<",
     )
     flipTlBack.to(SubmitBtn, {yPercent: -500, duration: 1}, "<")
     flipTlBack.set(
@@ -99,13 +98,13 @@ const IphoneCTA = ({content}) => {
         backgroundImage: `url(${images.IphoneBackground})`,
         duration: 1,
       },
-      "<"
+      "<",
     )
     flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1}, "<")
     flipTlBack.to(
       [Header],
       {yPercent: 0, xPercent: 0, rotation: 0, duration: 1},
-      "<"
+      "<",
     )
     flipTlBack.to(LoginBtn, {yPercent: 0, opacity: 1, ease: "power4.out"}, "<")
 
@@ -138,7 +137,7 @@ const IphoneCTA = ({content}) => {
     onStart.to(
       IphoneBg,
       {scale: 1, opacity: 1, duration: 1, ease: "smooth"},
-      "-=1.3"
+      "-=1.3",
     )
     onStart.to(FirstWord, {xPercent: 0, duration: 1.3, ease: "back.out"}, "-=1")
     onStart.to(SecondWord, {xPercent: 0, duration: 1.3, ease: "back.out"}, "<")
@@ -519,9 +518,11 @@ const IphoneAsset = styled.div`
   border-radius: 4.736vw;
   width: 26.875vw;
   height: 54.361vw;
-  -webkit-box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
+  -webkit-box-shadow:
+    -0.139vw 0.972vw 1.25vw -0.347vw #000000,
     -0.139vw -0.694vw 1.25vw -0.486vw #000000;
-  box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
+  box-shadow:
+    -0.139vw 0.972vw 1.25vw -0.347vw #000000,
     -0.139vw -0.694vw 1.25vw -0.486vw #000000;
   ${media.fullWidth} {
     border-radius: 66px;
