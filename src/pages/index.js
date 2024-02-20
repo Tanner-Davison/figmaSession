@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, graphql, StaticQuery } from "gatsby"
+import { Link, graphql, useStaticQuery} from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
@@ -21,26 +21,22 @@ const PageSections = ({content}) =>{
   )
 }
 const HomePage = () => {
-
-return (
-  <StaticQuery
-    query={graphql`
+  
+    const data = useStaticQuery (graphql`
       query AllDataQuery {
         allFile {
           nodes {
             relativePath
           },
         },
-      }
-    `}
-    render={ data => (
+      },
+    `)
+  return (
       <Layout>
         <PageSections content={data.allFile} />
       </Layout>
-    )}
-  />
-)
-}
+    
+)}
 
 
 

@@ -3,8 +3,8 @@ title: The Dojo Coffee House
 stack: HTML & CSS
 slug: the-dojo-coffee-house
 date: 2021-01-01T00:00:00:0
-thumb: ./images/thumbs/coffee.png
-featuredImg: ./images/featured/coffee-banner.png
+thumb: ./images/thumbs/foodThumb.png
+featuredImg: ./images/featured/food-banner.png
 
 ---
 

@@ -7,6 +7,7 @@ import {pageData} from "./content/IphonePageData"
 import {gsap} from "gsap"
 import {GSDevTools} from "gsap/GSDevTools"
 
+
 const IphoneCTA = ({content}) => {
   gsap.registerPlugin(GSDevTools)
   const flipTl = gsap.timeline()
@@ -20,6 +21,8 @@ const IphoneCTA = ({content}) => {
 
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
+    console.log('hello world');
+    
     const Iphone = document.querySelectorAll(".iphoneAsset")
     const MainContent = document.querySelectorAll(".iphoneBackground")
     const Header = document.querySelectorAll(".iphoneHeader")
@@ -41,14 +44,9 @@ const IphoneCTA = ({content}) => {
       backgroundImage: `url(${images.flipImg})`,
       backgroundSize: "100%",
       backgroundPosition: "center",
-      })
+    })
 
-    flipTl.to(LoginBtn,
-      {yPercent: 600,
-        opacity: 0,
-        duration: 1},
-        "<")
-
+    flipTl.to(LoginBtn, {yPercent: 600, opacity: 0, duration: 1}, "<")
     flipTl.to(
       Iphone,
       {
@@ -93,10 +91,7 @@ const IphoneCTA = ({content}) => {
       {xPercent: 0, yPercent: -500, opacity: 0, duration: 2},
       "<"
     )
-    flipTlBack.to(SubmitBtn, 
-      {yPercent: -500,
-         duration: 1},
-       "<")
+    flipTlBack.to(SubmitBtn, {yPercent: -500, duration: 1}, "<")
     flipTlBack.set(
       MainContent,
       {
@@ -106,19 +101,13 @@ const IphoneCTA = ({content}) => {
       },
       "<"
     )
-    flipTlBack.to([PhoneBody],
-       {yPercent: 0,
-         duration: 1}, "<")
+    flipTlBack.to([PhoneBody], {yPercent: 0, duration: 1}, "<")
     flipTlBack.to(
       [Header],
-      {yPercent: 0,
-         xPercent: 0,
-          rotation: 0,
-           duration: 1,
-          },
+      {yPercent: 0, xPercent: 0, rotation: 0, duration: 1},
       "<"
     )
-    flipTlBack.to(LoginBtn, {yPercent: 0, opacity: 1, duration: 1}, "<")
+    flipTlBack.to(LoginBtn, {yPercent: 0, opacity: 1, ease: "power4.out"}, "<")
 
     return
   }
@@ -527,9 +516,9 @@ const IphoneAsset = styled.div`
   background-repeat: no-repeat;
   overflow: hidden;
   z-index: 500;
-  border-radius: 3.736vw;
+  border-radius: 4.736vw;
   width: 26.875vw;
-  height: 54.861vw;
+  height: 54.361vw;
   -webkit-box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
     -0.139vw -0.694vw 1.25vw -0.486vw #000000;
   box-shadow: -0.139vw 0.972vw 1.25vw -0.347vw #000000,
@@ -670,7 +659,7 @@ const Wrapper = styled.div`
   justify-content: center;
   overflow: hidden;
   background: ${colors.white};
-  width: 100vw; 
+  width: 100vw;
   padding: 10.417vw 0;
 
   margin-left: -0.64vw;

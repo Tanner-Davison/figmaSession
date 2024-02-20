@@ -17,7 +17,6 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
-    `gatsby-plugin-image`,
     "gatsby-plugin-styled-components",
     "gatsby-plugin-svgr",
     {
@@ -32,8 +31,10 @@ module.exports = {
         extensions: ["js", "jsx"],
       },
     },
+    `gatsby-plugin-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -54,10 +55,10 @@ module.exports = {
         fonts: [`Orbitron`, `Archivo`, `Roboto Mono`],
       },
     },
-     {
+    {
       resolve: `gatsby-plugin-styled-components`,
       options: {
-         displayName: true,
+        displayName: true,
       },
     },
     {
